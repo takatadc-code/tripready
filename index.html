@@ -1,0 +1,359 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripReady — 海外旅行プランナー</title>
+<meta name="description" content="TripReadyは、海外旅行の計画・管理をAIがサポートするスマートトラベルアプリです。">
+<meta property="og:title" content="TripReady — 海外旅行プランナー">
+<meta property="og:description" content="AIがサポートする海外旅行プランナー。フライト・ホテル・保険・渡航要件をまとめて管理。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://takatadc.github.io/tripready/">
+<link rel="icon" type="image/png" href="images/app-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    color: #1F2937;
+    line-height: 1.7;
+    background: #FAFEFF;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0891B2 0%, #06B6D4 40%, #67E8F9 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 24px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: #FAFEFF;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .hero-mascot {
+    width: 140px;
+    height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    margin: 0 auto 24px;
+    object-fit: contain;
+  }
+  .hero h1 {
+    font-size: 32px;
+    font-weight: 800;
+    letter-spacing: -0.5px;
+    margin-bottom: 8px;
+  }
+  .hero .subtitle {
+    font-size: 16px;
+    opacity: 0.92;
+    font-weight: 400;
+    margin-bottom: 28px;
+  }
+  .badge-row {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    flex-wrap: wrap;
+  }
+  .badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 6px;
+    background: rgba(255,255,255,0.2);
+    backdrop-filter: blur(8px);
+    border-radius: 20px;
+    padding: 6px 16px;
+    font-size: 13px;
+    font-weight: 500;
+  }
+
+  /* App Store Button */
+  .store-btn {
+    display: inline-block;
+    margin-top: 24px;
+    background: #000;
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 12px;
+    font-size: 15px;
+    font-weight: 600;
+    transition: transform 0.15s;
+  }
+  .store-btn:hover { transform: scale(1.04); }
+  .store-btn.coming-soon {
+    background: rgba(255,255,255,0.25);
+    cursor: default;
+    pointer-events: none;
+  }
+
+  /* Sections */
+  .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+
+  .section {
+    padding: 56px 0;
+  }
+  .section-title {
+    font-size: 22px;
+    font-weight: 700;
+    color: #0E7490;
+    text-align: center;
+    margin-bottom: 36px;
+  }
+
+  /* Features */
+  .features {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+    gap: 20px;
+  }
+  .feature-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 22px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08);
+    text-align: center;
+    transition: transform 0.15s;
+  }
+  .feature-card:hover { transform: translateY(-3px); }
+  .feature-icon {
+    font-size: 36px;
+    margin-bottom: 12px;
+  }
+  .feature-card h3 {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0E7490;
+    margin-bottom: 8px;
+  }
+  .feature-card p {
+    font-size: 14px;
+    color: #6B7280;
+    line-height: 1.6;
+  }
+
+  /* Plans */
+  .plans {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+    gap: 20px;
+  }
+  .plan-card {
+    background: #fff;
+    border-radius: 16px;
+    padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08);
+    text-align: center;
+  }
+  .plan-card.premium {
+    border: 2px solid #0891B2;
+    position: relative;
+  }
+  .plan-card.premium::before {
+    content: 'おすすめ';
+    position: absolute;
+    top: -12px;
+    left: 50%;
+    transform: translateX(-50%);
+    background: #0891B2;
+    color: #fff;
+    font-size: 12px;
+    font-weight: 600;
+    padding: 3px 14px;
+    border-radius: 10px;
+  }
+  .plan-name {
+    font-size: 18px;
+    font-weight: 700;
+    color: #0E7490;
+    margin-bottom: 4px;
+  }
+  .plan-price {
+    font-size: 28px;
+    font-weight: 800;
+    color: #1F2937;
+    margin-bottom: 16px;
+  }
+  .plan-price span { font-size: 14px; font-weight: 400; color: #9CA3AF; }
+  .plan-features {
+    list-style: none;
+    text-align: left;
+    margin-bottom: 0;
+  }
+  .plan-features li {
+    font-size: 14px;
+    color: #4B5563;
+    padding: 6px 0;
+    border-bottom: 1px solid #F3F4F6;
+  }
+  .plan-features li::before {
+    content: '✓ ';
+    color: #0891B2;
+    font-weight: 700;
+  }
+
+  /* Safety */
+  .safety-banner {
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    border-radius: 16px;
+    padding: 28px;
+    text-align: center;
+  }
+  .safety-banner h3 {
+    font-size: 17px;
+    color: #92400E;
+    margin-bottom: 8px;
+  }
+  .safety-banner p {
+    font-size: 14px;
+    color: #78350F;
+  }
+
+  /* Footer */
+  footer {
+    background: #0E7490;
+    color: rgba(255,255,255,0.85);
+    text-align: center;
+    padding: 36px 24px;
+    font-size: 13px;
+  }
+  footer a {
+    color: #A5F3FC;
+    text-decoration: none;
+    margin: 0 12px;
+  }
+  footer a:hover { text-decoration: underline; }
+  .footer-links { margin-bottom: 16px; }
+  .footer-company { opacity: 0.7; font-size: 12px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 26px; }
+    .features, .plans { grid-template-columns: 1fr; }
+    .section { padding: 40px 0; }
+  }
+</style>
+</head>
+<body>
+
+<!-- Hero -->
+<section class="hero">
+  <img src="images/mascot.png" alt="TripReady マスコット" class="hero-mascot"
+       onerror="this.style.display='none'">
+  <h1>TripReady</h1>
+  <p class="subtitle">AIがサポートする、海外旅行プランナー</p>
+  <div class="badge-row">
+    <span class="badge">✈️ 旅行計画</span>
+    <span class="badge">🤖 AIアシスタント</span>
+    <span class="badge">🛡️ 安全情報</span>
+  </div>
+  <a class="store-btn coming-soon">App Store — 近日公開</a>
+</section>
+
+<!-- Features -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">主な機能</h2>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>旅行プラン管理</h3>
+        <p>フライト・ホテル・保険をまとめて管理。家族全員のパスポートやマイレージも一元管理できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <h3>AIスキャン</h3>
+        <p>航空券や保険証書をカメラで撮影するだけ。AIが内容を読み取り、自動で旅行プランに登録します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏥</div>
+        <h3>保険AIコンサル</h3>
+        <p>海外旅行保険の補償内容をAIが分析。歯科治療や持病カバーなど、気になるポイントを確認できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>空港ガイドAI</h3>
+        <p>空港での乗り換え、免税店、ラウンジ情報をAIがリアルタイムでガイド。初めての空港も安心です。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <h3>渡航安全情報</h3>
+        <p>外務省の海外安全情報と連携。渡航先の危険レベルをリアルタイムで確認できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>持ち物チェックリスト</h3>
+        <p>渡航先に合わせた持ち物リストを自動生成。ビザ・SIM・変圧器など必要なものを漏れなく確認。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Plans -->
+<section class="section" style="background: #F0FDFA;">
+  <div class="container">
+    <h2 class="section-title">料金プラン</h2>
+    <div class="plans">
+      <div class="plan-card">
+        <div class="plan-name">🆓 無料プラン</div>
+        <div class="plan-price">¥0</div>
+        <ul class="plan-features">
+          <li>旅行プラン作成・管理</li>
+          <li>フライト・ホテル情報管理</li>
+          <li>渡航安全情報の確認</li>
+          <li>AI機能 10回まで（生涯）</li>
+        </ul>
+      </div>
+      <div class="plan-card premium">
+        <div class="plan-name">🌟 プレミアム</div>
+        <div class="plan-price">¥300<span> / 月</span></div>
+        <ul class="plan-features">
+          <li>無料プランの全機能</li>
+          <li>AI機能 月50回まで</li>
+          <li>AIスキャン無制限*</li>
+          <li>保険コンサルAI</li>
+          <li>空港ガイドAI</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; font-size:12px; color:#9CA3AF; margin-top:16px;">
+      * AI回数の範囲内での利用となります。サブスクリプションはApp Store経由で管理されます。
+    </p>
+  </div>
+</section>
+
+<!-- Safety -->
+<section class="section">
+  <div class="container">
+    <div class="safety-banner">
+      <h3>🛡️ 外務省 海外安全情報と連携</h3>
+      <p>渡航先の危険レベル（レベル1〜4）をリアルタイムで表示。<br>
+      レベル2以上の地域は旅行計画作成時に警告を表示し、安全な旅行をサポートします。</p>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer>
+  <div class="footer-links">
+    <a href="privacy-policy.html">プライバシーポリシー</a>
+    <a href="terms-of-service.html">利用規約</a>
+  </div>
+  <div class="footer-company">
+    &copy; 2026 株式会社ランダムコーポレーション (RANDAM CORPORATION, K.K.)<br>
+    お問い合わせ: takatadc@gmail.com
+  </div>
+</footer>
+
+</body>
+</html>
