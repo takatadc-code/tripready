@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ja">
 <head>
@@ -8,7 +9,7 @@
 <meta property="og:title" content="TripReady — 海外旅行プランナー">
 <meta property="og:description" content="AIがサポートする海外旅行プランナー。フライト・ホテル・保険・渡航要件をまとめて管理。">
 <meta property="og:type" content="website">
-<meta property="og:url" content="https://takatadc.github.io/tripready/">
+<meta property="og:url" content="https://takatadc-code.github.io/tripready/">
 <link rel="icon" type="image/png" href="images/app-icon.png">
 <style>
   * { margin: 0; padding: 0; box-sizing: border-box; }
@@ -32,206 +33,152 @@
     content: '';
     position: absolute;
     bottom: -2px;
-    left: 0;
-    right: 0;
+    left: 0; right: 0;
     height: 40px;
     background: #FAFEFF;
     border-radius: 50% 50% 0 0 / 100% 100% 0 0;
   }
   .hero-mascot {
-    width: 140px;
-    height: 140px;
+    width: 140px; height: 140px;
     border-radius: 50%;
     background: rgba(255,255,255,0.2);
     padding: 10px;
     margin: 0 auto 24px;
     object-fit: contain;
   }
-  .hero h1 {
-    font-size: 32px;
-    font-weight: 800;
-    letter-spacing: -0.5px;
-    margin-bottom: 8px;
-  }
-  .hero .subtitle {
-    font-size: 16px;
-    opacity: 0.92;
-    font-weight: 400;
-    margin-bottom: 28px;
-  }
-  .badge-row {
-    display: flex;
-    justify-content: center;
-    gap: 12px;
-    flex-wrap: wrap;
-  }
+  .hero h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .hero .subtitle { font-size: 16px; opacity: 0.92; font-weight: 400; margin-bottom: 28px; }
+  .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
   .badge {
-    display: inline-flex;
-    align-items: center;
-    gap: 6px;
-    background: rgba(255,255,255,0.2);
-    backdrop-filter: blur(8px);
-    border-radius: 20px;
-    padding: 6px 16px;
-    font-size: 13px;
-    font-weight: 500;
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+    border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500;
   }
-
-  /* App Store Button */
   .store-btn {
-    display: inline-block;
-    margin-top: 24px;
-    background: #000;
-    color: #fff;
-    text-decoration: none;
-    padding: 12px 28px;
-    border-radius: 12px;
-    font-size: 15px;
-    font-weight: 600;
-    transition: transform 0.15s;
+    display: inline-block; margin-top: 24px; background: #000; color: #fff;
+    text-decoration: none; padding: 12px 28px; border-radius: 12px;
+    font-size: 15px; font-weight: 600; transition: transform 0.15s;
   }
   .store-btn:hover { transform: scale(1.04); }
-  .store-btn.coming-soon {
-    background: rgba(255,255,255,0.25);
-    cursor: default;
-    pointer-events: none;
-  }
+  .store-btn.coming-soon { background: rgba(255,255,255,0.25); cursor: default; pointer-events: none; }
 
   /* Sections */
   .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 56px 0; }
+  .section-title { font-size: 22px; font-weight: 700; color: #0E7490; text-align: center; margin-bottom: 36px; }
 
-  .section {
-    padding: 56px 0;
-  }
-  .section-title {
-    font-size: 22px;
-    font-weight: 700;
-    color: #0E7490;
-    text-align: center;
-    margin-bottom: 36px;
-  }
-
-  /* Features */
-  .features {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-    gap: 20px;
-  }
+  /* Features grid */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
   .feature-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 28px 22px;
-    box-shadow: 0 2px 12px rgba(8,145,178,0.08);
-    text-align: center;
-    transition: transform 0.15s;
+    background: #fff; border-radius: 16px; padding: 28px 22px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08); text-align: center; transition: transform 0.15s;
   }
   .feature-card:hover { transform: translateY(-3px); }
-  .feature-icon {
-    font-size: 36px;
-    margin-bottom: 12px;
+  .feature-icon { font-size: 36px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 16px; font-weight: 700; color: #0E7490; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: #6B7280; line-height: 1.6; }
+
+  /* Phone Mockup Showcase */
+  .showcase { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 56px; }
+  .showcase:last-child { margin-bottom: 0; }
+  .showcase.reverse { flex-direction: row-reverse; }
+  .phone-frame {
+    width: 260px; min-height: 460px; background: #1F2937;
+    border-radius: 36px; padding: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18); flex-shrink: 0;
   }
-  .feature-card h3 {
-    font-size: 16px;
-    font-weight: 700;
-    color: #0E7490;
-    margin-bottom: 8px;
+  .mock-screen {
+    background: #F9FAFB; border-radius: 26px; overflow: hidden; min-height: 436px;
   }
-  .feature-card p {
-    font-size: 14px;
-    color: #6B7280;
-    line-height: 1.6;
+  .mock-status-bar {
+    color: rgba(255,255,255,0.9); font-size: 11px; padding: 10px 16px 6px;
+    display: flex; justify-content: space-between;
+  }
+  .mock-header { color: white; padding: 8px 16px 14px; font-size: 17px; font-weight: 700; }
+  .mock-status-bar, .mock-header { background: #0891B2; }
+  .mock-body { padding: 12px; }
+  .mock-card {
+    background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); font-size: 12px; color: #374151;
+  }
+  .mock-card-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; color: #0E7490; }
+  .mock-tag {
+    display: inline-block; background: #E0F7FA; color: #0891B2;
+    border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 600; margin-right: 4px;
+  }
+  .mock-tag.lock { background: #F3E8FF; color: #7C3AED; }
+  .mock-tag.warn { background: #FEF3C7; color: #92400E; }
+  .mock-tag.danger { background: #FEE2E2; color: #DC2626; }
+  .mock-tag.green { background: #DCFCE7; color: #16A34A; }
+  .mock-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; }
+  .mock-photo {
+    background: linear-gradient(135deg, #A5F3FC, #67E8F9);
+    border-radius: 6px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .mock-photo:nth-child(2) { background: linear-gradient(135deg, #FDE68A, #FCD34D); }
+  .mock-photo:nth-child(3) { background: linear-gradient(135deg, #BBF7D0, #86EFAC); }
+  .mock-photo:nth-child(4) { background: linear-gradient(135deg, #FECACA, #FCA5A5); }
+  .mock-divider { height: 1px; background: #F3F4F6; margin: 8px 0; }
+  .mock-chat-bubble {
+    background: #E0F7FA; border-radius: 12px 12px 12px 4px;
+    padding: 10px 12px; font-size: 11px; color: #0E7490; margin-bottom: 8px; line-height: 1.5;
+  }
+  .mock-chat-bubble.user {
+    background: #F3F4F6; border-radius: 12px 12px 4px 12px;
+    color: #374151; text-align: right;
+  }
+  .mock-scan-area {
+    border: 2px dashed #0891B2; border-radius: 12px; padding: 20px;
+    text-align: center; margin-bottom: 10px; background: #F0FDFA;
+  }
+  .mock-progress {
+    height: 6px; background: #E5E7EB; border-radius: 3px; overflow: hidden; margin-top: 6px;
+  }
+  .mock-progress-bar {
+    height: 100%; border-radius: 3px;
+  }
+
+  .showcase-text { flex: 1; min-width: 260px; }
+  .showcase-text h3 { font-size: 20px; font-weight: 700; color: #1F2937; margin-bottom: 12px; }
+  .showcase-text p { font-size: 15px; color: #6B7280; line-height: 1.8; margin-bottom: 12px; }
+  .showcase-text .highlight {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 10px;
+    padding: 8px 14px; font-size: 13px; color: #0E7490; font-weight: 500; margin-top: 4px;
   }
 
   /* Plans */
-  .plans {
-    display: grid;
-    grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
-    gap: 20px;
-  }
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
   .plan-card {
-    background: #fff;
-    border-radius: 16px;
-    padding: 28px 24px;
-    box-shadow: 0 2px 12px rgba(8,145,178,0.08);
-    text-align: center;
+    background: #fff; border-radius: 16px; padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08); text-align: center;
   }
-  .plan-card.premium {
-    border: 2px solid #0891B2;
-    position: relative;
-  }
+  .plan-card.premium { border: 2px solid #0891B2; position: relative; }
   .plan-card.premium::before {
-    content: 'おすすめ';
-    position: absolute;
-    top: -12px;
-    left: 50%;
-    transform: translateX(-50%);
-    background: #0891B2;
-    color: #fff;
-    font-size: 12px;
-    font-weight: 600;
-    padding: 3px 14px;
-    border-radius: 10px;
+    content: 'おすすめ'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: #0891B2; color: #fff; font-size: 12px; font-weight: 600; padding: 3px 14px; border-radius: 10px;
   }
-  .plan-name {
-    font-size: 18px;
-    font-weight: 700;
-    color: #0E7490;
-    margin-bottom: 4px;
-  }
-  .plan-price {
-    font-size: 28px;
-    font-weight: 800;
-    color: #1F2937;
-    margin-bottom: 16px;
-  }
+  .plan-name { font-size: 18px; font-weight: 700; color: #0E7490; margin-bottom: 4px; }
+  .plan-price { font-size: 28px; font-weight: 800; color: #1F2937; margin-bottom: 16px; }
   .plan-price span { font-size: 14px; font-weight: 400; color: #9CA3AF; }
-  .plan-features {
-    list-style: none;
-    text-align: left;
-    margin-bottom: 0;
-  }
-  .plan-features li {
-    font-size: 14px;
-    color: #4B5563;
-    padding: 6px 0;
-    border-bottom: 1px solid #F3F4F6;
-  }
-  .plan-features li::before {
-    content: '✓ ';
-    color: #0891B2;
-    font-weight: 700;
-  }
+  .plan-features { list-style: none; text-align: left; margin-bottom: 0; }
+  .plan-features li { font-size: 14px; color: #4B5563; padding: 6px 0; border-bottom: 1px solid #F3F4F6; }
+  .plan-features li::before { content: '✓ '; color: #0891B2; font-weight: 700; }
 
-  /* Safety */
+  /* Safety banner */
   .safety-banner {
     background: linear-gradient(135deg, #FEF3C7, #FDE68A);
-    border-radius: 16px;
-    padding: 28px;
-    text-align: center;
+    border-radius: 16px; padding: 28px; text-align: center;
   }
-  .safety-banner h3 {
-    font-size: 17px;
-    color: #92400E;
-    margin-bottom: 8px;
-  }
-  .safety-banner p {
-    font-size: 14px;
-    color: #78350F;
-  }
+  .safety-banner h3 { font-size: 17px; color: #92400E; margin-bottom: 8px; }
+  .safety-banner p { font-size: 14px; color: #78350F; }
 
   /* Footer */
   footer {
-    background: #0E7490;
-    color: rgba(255,255,255,0.85);
-    text-align: center;
-    padding: 36px 24px;
-    font-size: 13px;
+    background: #0E7490; color: rgba(255,255,255,0.85);
+    text-align: center; padding: 36px 24px; font-size: 13px;
   }
-  footer a {
-    color: #A5F3FC;
-    text-decoration: none;
-    margin: 0 12px;
-  }
+  footer a { color: #A5F3FC; text-decoration: none; margin: 0 12px; }
   footer a:hover { text-decoration: underline; }
   .footer-links { margin-bottom: 16px; }
   .footer-company { opacity: 0.7; font-size: 12px; }
@@ -241,26 +188,30 @@
     .hero h1 { font-size: 26px; }
     .features, .plans { grid-template-columns: 1fr; }
     .section { padding: 40px 0; }
+    .showcase { gap: 28px; }
+    .showcase, .showcase.reverse { flex-direction: column; }
+    .phone-frame { width: 230px; min-height: 400px; }
+    .mock-screen { min-height: 376px; }
   }
 </style>
 </head>
 <body>
 
-<!-- Hero -->
+<!-- ===== Hero ===== -->
 <section class="hero">
-  <img src="images/mascot.png" alt="TripReady マスコット" class="hero-mascot"
-       onerror="this.style.display='none'">
+  <img src="images/mascot.png" alt="TripReady マスコット" class="hero-mascot" onerror="this.style.display='none'">
   <h1>TripReady</h1>
   <p class="subtitle">AIがサポートする、海外旅行プランナー</p>
   <div class="badge-row">
     <span class="badge">✈️ 旅行計画</span>
     <span class="badge">🤖 AIアシスタント</span>
     <span class="badge">🛡️ 安全情報</span>
+    <span class="badge">🔒 プライバシー保護</span>
   </div>
   <a class="store-btn coming-soon">App Store — 近日公開</a>
 </section>
 
-<!-- Features -->
+<!-- ===== Feature Grid ===== -->
 <section class="section">
   <div class="container">
     <h2 class="section-title">主な機能</h2>
@@ -299,7 +250,317 @@
   </div>
 </section>
 
-<!-- Plans -->
+<!-- ===== Showcase 1: 旅行プラン管理 ===== -->
+<section class="section" style="background:#F0FDFA;">
+  <div class="container">
+    <h2 class="section-title">機能を詳しく見る</h2>
+
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>9:41</span><span>5G 🔋</span></div>
+          <div class="mock-header">✈️ 旅行一覧</div>
+          <div class="mock-body">
+            <div class="mock-card" style="border-left: 4px solid #0891B2;">
+              <div class="mock-card-title">🇸🇬 シンガポール家族旅行</div>
+              <div style="font-size:11px; color:#6B7280;">2026/04/28 - 05/03 • 6日間</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag">NH841</span>
+                <span class="mock-tag">Marina Bay Sands</span>
+              </div>
+              <div class="mock-progress"><div class="mock-progress-bar" style="width:75%; background:#0891B2;"></div></div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">準備 75% 完了</div>
+            </div>
+            <div class="mock-card" style="border-left: 4px solid #F59E0B;">
+              <div class="mock-card-title">🇫🇷 パリ出張</div>
+              <div style="font-size:11px; color:#6B7280;">2026/06/10 - 06/15 • 5日間</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag">AF275</span>
+                <span class="mock-tag warn">レベル1 注意</span>
+              </div>
+              <div class="mock-progress"><div class="mock-progress-bar" style="width:30%; background:#F59E0B;"></div></div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">準備 30% 完了</div>
+            </div>
+            <div class="mock-card" style="border-left: 4px solid #10B981; opacity:0.7;">
+              <div class="mock-card-title">🇰🇷 ソウル週末旅行</div>
+              <div style="font-size:11px; color:#6B7280;">2026/03/15 - 03/17 • 完了</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag green">旅行完了</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📋 すべての旅を一画面で管理</h3>
+        <p>旅行ごとにフライト、ホテル、保険、渡航要件をまとめて管理。準備の進捗バーで、あと何が足りないかが一目でわかります。</p>
+        <p>家族全員のパスポート番号やマイレージ番号も登録でき、予約のたびに探す手間がなくなります。</p>
+        <div class="highlight">📊 旅行の準備状況をパーセントで可視化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 2: AIスキャン ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>11:05</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">📸 eチケット スキャン</div>
+          <div class="mock-body">
+            <div class="mock-scan-area">
+              <div style="font-size:32px; margin-bottom:8px;">📄</div>
+              <div style="font-size:12px; color:#0891B2; font-weight:600;">カメラで撮影 or 画像を選択</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">eチケット・ホテル予約・保険証書に対応</div>
+            </div>
+            <div class="mock-card" style="border: 1px solid #0891B2;">
+              <div style="font-size:11px; color:#0891B2; font-weight:600; margin-bottom:6px;">✨ AI読み取り結果</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">便名</span><span style="font-weight:600;">NH841</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">区間</span><span style="font-weight:600;">NRT → SIN</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">日付</span><span style="font-weight:600;">2026/04/28</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0;">
+                <span style="color:#6B7280;">座席</span><span style="font-weight:600;">32A（窓側）</span>
+              </div>
+            </div>
+            <div style="text-align:center;">
+              <div style="display:inline-block; background:#0891B2; color:#fff; border-radius:10px; padding:8px 24px; font-size:13px; font-weight:600;">旅行プランに登録する</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📸 撮って、読んで、即登録</h3>
+        <p>eチケットのPDFやメールのスクリーンショットをカメラで撮影するだけ。AIが便名・日程・座席などを自動で読み取ります。</p>
+        <p>ホテルの予約確認書や海外旅行保険の証書にも対応。面倒な手入力から解放されます。</p>
+        <div class="highlight">🤖 Claude AI が書類を瞬時に解析</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 3: 空港ガイド AI ===== -->
+<section class="section" style="background:#F0F9FF;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>14:30</span><span>4G 🔋</span></div>
+          <div class="mock-header">🗺️ 空港ガイド AI</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F0FDFA; text-align:center; padding:8px;">
+              <span style="font-size:11px; color:#0891B2; font-weight:600;">チャンギ空港 (SIN) • ターミナル1</span>
+            </div>
+            <div class="mock-chat-bubble user">乗り換え時間が2時間あるけど、おすすめの過ごし方は？</div>
+            <div class="mock-chat-bubble">
+              チャンギ空港T1は2時間でも十分楽しめますよ！<br><br>
+              <b>おすすめ：</b><br>
+              🌿 Jewel — 滝と庭園（徒歩5分）<br>
+              🍜 フードコート（3F, ラクサが絶品）<br>
+              💆 無料マッサージチェア（Gate C付近）<br>
+              🛍️ 免税店 DFS（搭乗口近く）
+            </div>
+            <div class="mock-chat-bubble user">ラウンジはどこにある？</div>
+            <div class="mock-chat-bubble">
+              T1のラウンジは3カ所あります：<br>
+              ✈️ SATS Premier — Gate C1付近<br>
+              ✈️ dnata Lounge — Gate C20付近<br>
+              💳 プライオリティパスで利用可能です
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🗺️ 空港のことは何でも聞ける</h3>
+        <p>乗り換えの過ごし方、免税店の場所、ラウンジ情報、入国審査の手順 — 空港に関する疑問にAIがリアルタイムで回答します。</p>
+        <p>フライト情報から空港とターミナルを自動判別。的確な情報を、チャット形式でわかりやすくお届けします。</p>
+        <div class="highlight">💬 チャットで聞くだけ、空港のコンシェルジュ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 4: 保険 AI コンサル ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>10:15</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">🏥 保険AIコンサル</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FFF7ED; border: 1px solid #FED7AA;">
+              <div style="font-size:11px; color:#C2410C; font-weight:600;">📋 損保ジャパン 海外旅行保険</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:2px;">証書をスキャン済み</div>
+            </div>
+            <div class="mock-chat-bubble user">歯科治療はカバーされる？</div>
+            <div class="mock-chat-bubble">
+              お手持ちの保険証書を確認しました。<br><br>
+              <b>歯科治療について：</b><br>
+              ⚠️ <b>緊急歯科治療のみ</b>対応<br>
+              💰 上限: 10万円<br>
+              📋 事前の歯科疾患は対象外<br><br>
+              <span style="font-size:10px; color:#6B7280;">※ 渡航前の治療をおすすめします</span>
+            </div>
+            <div class="mock-chat-bubble user">コロナで入院したらどうなる？</div>
+            <div class="mock-chat-bubble">
+              <b>感染症での入院：</b><br>
+              ✅ 治療費: 無制限<br>
+              ✅ 入院日額: 5,000円<br>
+              ✅ 帰国費用: カバーあり<br>
+              📞 24時間日本語ホットライン付き
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🏥 保険の「ここが知りたい」に即回答</h3>
+        <p>海外旅行保険の証書をスキャンするだけで、補償内容をAIが詳しく分析。歯科治療、持病、コロナ対応など、気になるポイントをチャットで質問できます。</p>
+        <p>保険の専門用語もわかりやすく説明。出発前の不安を解消します。</p>
+        <div class="highlight">📄 保険証書をスキャン → AIが補償内容を解説</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 5: 渡航安全情報 ===== -->
+<section class="section" style="background:#FFFBEB;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#92400E;"><span>16:42</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#92400E;">⚠️ 渡航安全情報</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:13px; font-weight:700; color:#92400E;">🇵🇭 フィリピン</div>
+              <div style="margin:6px 0;"><span class="mock-tag warn">レベル2：不要不急の渡航中止</span></div>
+              <div style="font-size:10px; color:#78350F;">ミンダナオ島の一部地域</div>
+            </div>
+            <div class="mock-card" style="background:#FEE2E2; border:1px solid #FECACA;">
+              <div style="font-size:13px; font-weight:700; color:#DC2626;">🇺🇦 ウクライナ</div>
+              <div style="margin:6px 0;"><span class="mock-tag danger">レベル4：退避勧告</span></div>
+              <div style="font-size:10px; color:#991B1B;">全域</div>
+            </div>
+            <div class="mock-card">
+              <div style="font-size:13px; font-weight:700; color:#0E7490;">🇸🇬 シンガポール</div>
+              <div style="margin:6px 0;"><span class="mock-tag green">レベル0：安全</span></div>
+              <div style="font-size:10px; color:#6B7280;">危険情報なし</div>
+            </div>
+            <div class="mock-card">
+              <div style="font-size:13px; font-weight:700; color:#0E7490;">🇫🇷 フランス</div>
+              <div style="margin:6px 0;"><span class="mock-tag" style="background:#FEF9C3; color:#A16207;">レベル1：十分注意</span></div>
+              <div style="font-size:10px; color:#6B7280;">一部地域（テロ警戒）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>⚠️ 外務省データとリアルタイム連携</h3>
+        <p>外務省の海外安全情報オープンデータを毎日自動取得。渡航先の危険レベルを4段階で表示し、地域ごとの詳細情報もわかります。</p>
+        <p>レベル2以上の国を旅行先に選ぶと、計画作成時に警告バナーを表示。安全を最優先にサポートします。</p>
+        <div class="highlight">🛡️ 旅行計画時に危険地域を自動で警告</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 6: お忍びモード ===== -->
+<section class="section" style="background: #F8F5FF;">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#7C3AED;"><span>9:41</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#7C3AED;">🔒 お忍び旅行</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F8F5FF; border:1px solid #E9D5FF; text-align:center; padding:20px 12px;">
+              <div style="font-size:28px; margin-bottom:8px;">🔒</div>
+              <div style="font-size:13px; color:#7C3AED; font-weight:700;">認証が必要です</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:6px;">お忍び旅行を表示するには<br>認証してください</div>
+              <div style="margin-top:12px; display:inline-block; background:#7C3AED; color:#fff; border-radius:10px; padding:8px 20px; font-size:12px; font-weight:600;">Face ID / パスコードで解除</div>
+            </div>
+            <div style="text-align:center; font-size:10px; color:#9CA3AF; margin:12px 0 8px;">▼ 認証後 ▼</div>
+            <div class="mock-card">
+              <div class="mock-card-title">🎂 妻の誕生日 in パリ</div>
+              <div style="margin: 6px 0;"><span class="mock-tag lock">お忍び保護中</span></div>
+              <div style="color:#9CA3AF; font-size:11px;">2026/06/15 - 06/22 • フランス 🇫🇷</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">🛫 NH215 NRT → CDG</div>
+              <div style="font-size:11px;">06/15 10:30 発</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🤫 お忍びモード — プライバシーを守る</h3>
+        <p>サプライズ旅行や特別な計画を、普段の画面から完全に隠すことができます。</p>
+        <p>お忍びモードに設定された旅行プランは、認証しない限り一覧にも表示されません。Face ID・Touch ID・パスコードに対応しているので、大切な人に見られてしまう心配はありません。</p>
+        <div class="highlight">🔐 認証で安全にプライバシーを保護</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 7: トラベルアルバム ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>14:23</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">📷 シンガポール 2026</div>
+          <div class="mock-body">
+            <div class="mock-card">
+              <div class="mock-card-title">旅の思い出アルバム</div>
+              <div style="font-size:11px; color:#6B7280; margin-bottom:4px;">24枚の写真と書類</div>
+              <div class="mock-photo-grid">
+                <div class="mock-photo">🌴</div>
+                <div class="mock-photo">🍜</div>
+                <div class="mock-photo">🏙️</div>
+                <div class="mock-photo">🌅</div>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 1 — チャンギ空港</div>
+                <span style="font-size:10px; color:#9CA3AF;">4枚</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 2 — マリーナベイ</div>
+                <span style="font-size:10px; color:#9CA3AF;">12枚</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 3 — セントーサ島</div>
+                <span style="font-size:10px; color:#9CA3AF;">8枚</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📷 旅ごとのフォトアルバム</h3>
+        <p>旅行中に撮影した写真や書類のスキャン画像を、旅程ごとに自動で整理。旅の思い出がひとつのアルバムにまとまります。</p>
+        <p>eチケットのスキャン画像から現地で撮った風景写真まで — すべてが旅行プランに紐づいた一冊のアルバムになります。</p>
+        <div class="highlight">📁 フライト・ホテル・写真を旅ごとにまとめて管理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Plans ===== -->
 <section class="section" style="background: #F0FDFA;">
   <div class="container">
     <h2 class="section-title">料金プラン</h2>
@@ -332,18 +593,18 @@
   </div>
 </section>
 
-<!-- Safety -->
+<!-- ===== Safety ===== -->
 <section class="section">
   <div class="container">
     <div class="safety-banner">
-      <h3>🛡️ 外務省 海外安全情報と連携</h3>
-      <p>渡航先の危険レベル（レベル1〜4）をリアルタイムで表示。<br>
-      レベル2以上の地域は旅行計画作成時に警告を表示し、安全な旅行をサポートします。</p>
+      <h3>🛡️ あなたのデータはあなたのデバイスに</h3>
+      <p>パスポート番号やフライト情報などの個人データは、すべてお使いのデバイス内に保存されます。<br>
+      サーバーに個人情報を保存しない設計で、プライバシーを最優先に守ります。</p>
     </div>
   </div>
 </section>
 
-<!-- Footer -->
+<!-- ===== Footer ===== -->
 <footer>
   <div class="footer-links">
     <a href="privacy-policy.html">プライバシーポリシー</a>
