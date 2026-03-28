@@ -201,12 +201,13 @@
 <section class="hero">
   <img src="images/mascot.png" alt="TripReady マスコット" class="hero-mascot" onerror="this.style.display='none'">
   <h1>TripReady</h1>
-  <p class="subtitle">AIがサポートする、海外旅行プランナー</p>
+  <p class="subtitle">海外旅行がはじめてでも安心。AIが準備から出発までサポート。</p>
   <div class="badge-row">
     <span class="badge">✈️ 旅行計画</span>
     <span class="badge">🤖 AIアシスタント</span>
     <span class="badge">🛡️ 安全情報</span>
     <span class="badge">🔒 プライバシー保護</span>
+    <span class="badge">🗺️ Googleマップ連携</span>
   </div>
   <a class="store-btn coming-soon">App Store — 近日公開</a>
 </section>
@@ -224,7 +225,27 @@
       <div class="feature-card">
         <div class="feature-icon">📸</div>
         <h3>AIスキャン</h3>
-        <p>航空券や保険証書をカメラで撮影するだけ。AIが内容を読み取り、自動で旅行プランに登録します。</p>
+        <p>航空券・パスポート・ホテル予約・観光チケット・保険証書をカメラで撮影。AIが内容を読み取り自動で登録します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>空港アクセス</h3>
+        <p>空港への経路をGoogleマップと連動してご案内。出発時刻から逆算した出発目安時刻も表示します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏰</div>
+        <h3>チェックイン締め切り</h3>
+        <p>航空会社ごとのチェックイン締め切り時間を自動表示。ANA・JAL・LCCなど各社の締め切りを把握できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>パスポート期限通知</h3>
+        <p>パスポートの有効期限が6ヶ月を切ったらアプリが通知。更新忘れによる渡航トラブルを未然に防ぎます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <h3>渡航安全情報</h3>
+        <p>外務省の海外安全情報と連携。渡航先の危険レベルをリアルタイムで確認できます。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">🏥</div>
@@ -235,11 +256,6 @@
         <div class="feature-icon">🗺️</div>
         <h3>空港ガイドAI</h3>
         <p>空港での乗り換え、免税店、ラウンジ情報をAIがリアルタイムでガイド。初めての空港も安心です。</p>
-      </div>
-      <div class="feature-card">
-        <div class="feature-icon">⚠️</div>
-        <h3>渡航安全情報</h3>
-        <p>外務省の海外安全情報と連携。渡航先の危険レベルをリアルタイムで確認できます。</p>
       </div>
       <div class="feature-card">
         <div class="feature-icon">📝</div>
@@ -308,12 +324,12 @@
       <div class="phone-frame">
         <div class="mock-screen">
           <div class="mock-status-bar"><span>11:05</span><span>Wi-Fi 🔋</span></div>
-          <div class="mock-header">📸 eチケット スキャン</div>
+          <div class="mock-header">📸 AIスキャン</div>
           <div class="mock-body">
             <div class="mock-scan-area">
               <div style="font-size:32px; margin-bottom:8px;">📄</div>
               <div style="font-size:12px; color:#0891B2; font-weight:600;">カメラで撮影 or 画像を選択</div>
-              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">eチケット・ホテル予約・保険証書に対応</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">eチケット・パスポート・観光チケット<br>ホテル予約・保険証書に対応</div>
             </div>
             <div class="mock-card" style="border: 1px solid #0891B2;">
               <div style="font-size:11px; color:#0891B2; font-weight:600; margin-bottom:6px;">✨ AI読み取り結果</div>
@@ -337,10 +353,10 @@
         </div>
       </div>
       <div class="showcase-text">
-        <h3>📸 撮って、読んで、即登録</h3>
-        <p>eチケットのPDFやメールのスクリーンショットをカメラで撮影するだけ。AIが便名・日程・座席などを自動で読み取ります。</p>
-        <p>ホテルの予約確認書や海外旅行保険の証書にも対応。面倒な手入力から解放されます。</p>
-        <div class="highlight">🤖 Claude AI が書類を瞬時に解析</div>
+        <h3>📸 撮るだけで全部読み取り</h3>
+        <p>eチケット、パスポート、ホテルの予約確認書、観光施設の入場チケット、海外旅行保険の証書 — カメラで撮影するだけでAIが内容を自動で読み取り、旅行プランに登録します。</p>
+        <p>面倒な手入力は一切不要。撮って、確認して、登録するだけです。</p>
+        <div class="highlight">📄 チケット・パスポート・保険証書をAIが瞬時に解析</div>
       </div>
     </div>
   </div>
@@ -472,7 +488,107 @@
   </div>
 </section>
 
-<!-- ===== Showcase 6: お忍びモード ===== -->
+<!-- ===== Showcase 6: 空港アクセス＆チェックイン ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>7:15</span><span>5G 🔋</span></div>
+          <div class="mock-header">🛫 出発日ガイド</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F0FDFA; border:1px solid #99F6E4;">
+              <div style="font-size:11px; color:#0891B2; font-weight:700;">NH841 NRT → SIN</div>
+              <div style="font-size:10px; color:#6B7280; margin-top:2px;">2026/04/28 (月) 10:30 出発</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">⏰ チェックイン締め切り</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">ANA国際線</span><span style="font-weight:600; color:#DC2626;">出発 60分前</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0;">
+                <span style="color:#6B7280;">締め切り時刻</span><span style="font-weight:700; color:#DC2626;">09:30</span>
+              </div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">※ 出発2時間前の到着を推奨</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">🗺️ 空港への経路</div>
+              <div style="background:linear-gradient(135deg,#E0F7FA,#B2EBF2); border-radius:8px; padding:12px; text-align:center; margin:6px 0;">
+                <div style="font-size:18px;">🚃</div>
+                <div style="font-size:11px; font-weight:600; color:#0E7490;">自宅 → 成田空港 T1</div>
+                <div style="font-size:10px; color:#0891B2;">約1時間30分 • 乗り換え1回</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="display:inline-block; background:#4285F4; color:#fff; border-radius:8px; padding:6px 16px; font-size:11px; font-weight:600;">Google マップで経路を開く</div>
+              </div>
+            </div>
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:11px; color:#92400E; font-weight:600;">🕗 遅くとも 7:00 には出発しましょう</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🗺️ 空港への経路もおまかせ</h3>
+        <p>登録したフライト情報から、出発日に空港への経路をGoogleマップと連動してご案内。電車・バス・車など最適なルートがワンタップで開きます。</p>
+        <p>さらに、各航空会社ごとのチェックイン締め切り時刻を自動表示。ANA・JAL・ピーチ・ジェットスターなど、それぞれ異なる締め切り時間を一目で確認できます。</p>
+        <div class="highlight">⏰ 航空会社別の締め切り時刻を自動計算</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 7: パスポート期限通知 ===== -->
+<section class="section" style="background:#FFF7ED;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#C2410C;"><span>10:00</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#C2410C;">🔔 お知らせ</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:20px; text-align:center; margin-bottom:6px;">⚠️</div>
+              <div style="font-size:13px; font-weight:700; color:#92400E; text-align:center;">パスポートの有効期限が<br>残り5ヶ月です</div>
+              <div style="margin:10px 0; padding:10px; background:#fff; border-radius:8px;">
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                  <span style="color:#6B7280;">氏名</span><span style="font-weight:600;">高田 光彦</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                  <span style="color:#6B7280;">有効期限</span><span style="font-weight:600; color:#DC2626;">2026/08/15</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0;">
+                  <span style="color:#6B7280;">残り</span><span style="font-weight:700; color:#DC2626;">約5ヶ月</span>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#78350F; line-height:1.5;">多くの国ではパスポートの残存有効期間が6ヶ月以上必要です。早めの更新をおすすめします。</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">👨‍👩‍👧 家族のパスポート</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span>高田 光彦</span><span style="color:#DC2626; font-weight:600;">⚠️ 残5ヶ月</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span>高田 花子</span><span style="color:#16A34A;">✅ 残3年</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0;">
+                <span>高田 太郎</span><span style="color:#16A34A;">✅ 残4年</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🔔 パスポート期限を見逃さない</h3>
+        <p>登録したパスポートの有効期限が残り6ヶ月を切ると、アプリが自動で通知します。多くの国では残存有効期間6ヶ月以上が入国条件のため、うっかり期限切れで渡航できない事態を防ぎます。</p>
+        <p>家族全員のパスポートもまとめて管理。一覧画面で全員の残り期間がひと目でわかります。</p>
+        <div class="highlight">👨‍👩‍👧 家族全員のパスポート期限を一括管理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 8: お忍びモード ===== -->
 <section class="section" style="background: #F8F5FF;">
   <div class="container">
     <div class="showcase reverse">
@@ -596,7 +712,12 @@
 <!-- ===== Safety ===== -->
 <section class="section">
   <div class="container">
-    <div class="safety-banner">
+    <div class="safety-banner" style="margin-bottom:20px;">
+      <h3>🌏 海外旅行がはじめてでも安心</h3>
+      <p>パスポートの準備からチェックインの手順、空港での過ごし方まで — 旅の初心者がつまずきやすいポイントをAIが丁寧にガイドします。<br>
+      渡航先ごとのビザ要件、持ち物リスト、危険情報もアプリがまとめて教えてくれるので、調べる手間がかかりません。</p>
+    </div>
+    <div class="safety-banner" style="background:linear-gradient(135deg, #E0F7FA, #B2EBF2);">
       <h3>🛡️ あなたのデータはあなたのデバイスに</h3>
       <p>パスポート番号やフライト情報などの個人データは、すべてお使いのデバイス内に保存されます。<br>
       サーバーに個人情報を保存しない設計で、プライバシーを最優先に守ります。</p>
