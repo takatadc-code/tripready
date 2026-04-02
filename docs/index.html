@@ -1,0 +1,929 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TripReady — 海外旅行プランナー</title>
+<meta name="description" content="TripReadyは、海外旅行の計画・管理をAIがサポートするスマートトラベルアプリです。">
+<meta property="og:title" content="TripReady — 海外旅行プランナー">
+<meta property="og:description" content="AIがサポートする海外旅行プランナー。フライト・ホテル・保険・渡航要件をまとめて管理。">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://takatadc-code.github.io/tripready/">
+<link rel="icon" type="image/png" href="images/app-icon.png">
+<style>
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+  body {
+    font-family: -apple-system, BlinkMacSystemFont, 'Hiragino Sans', 'Hiragino Kaku Gothic ProN', 'Noto Sans JP', sans-serif;
+    color: #1F2937;
+    line-height: 1.7;
+    background: #FAFEFF;
+  }
+
+  /* Hero */
+  .hero {
+    background: linear-gradient(135deg, #0891B2 0%, #06B6D4 40%, #67E8F9 100%);
+    color: white;
+    text-align: center;
+    padding: 60px 24px 50px;
+    position: relative;
+    overflow: hidden;
+  }
+  .hero::after {
+    content: '';
+    position: absolute;
+    bottom: -2px;
+    left: 0; right: 0;
+    height: 40px;
+    background: #FAFEFF;
+    border-radius: 50% 50% 0 0 / 100% 100% 0 0;
+  }
+  .hero-mascot {
+    width: 140px; height: 140px;
+    border-radius: 50%;
+    background: rgba(255,255,255,0.2);
+    padding: 10px;
+    margin: 0 auto 24px;
+    object-fit: contain;
+  }
+  .hero h1 { font-size: 32px; font-weight: 800; letter-spacing: -0.5px; margin-bottom: 8px; }
+  .hero .subtitle { font-size: 16px; opacity: 0.92; font-weight: 400; margin-bottom: 28px; }
+  .badge-row { display: flex; justify-content: center; gap: 12px; flex-wrap: wrap; }
+  .badge {
+    display: inline-flex; align-items: center; gap: 6px;
+    background: rgba(255,255,255,0.2); backdrop-filter: blur(8px);
+    border-radius: 20px; padding: 6px 16px; font-size: 13px; font-weight: 500;
+  }
+  .store-btn {
+    display: inline-block; margin-top: 24px; background: #000; color: #fff;
+    text-decoration: none; padding: 12px 28px; border-radius: 12px;
+    font-size: 15px; font-weight: 600; transition: transform 0.15s;
+  }
+  .store-btn:hover { transform: scale(1.04); }
+  .store-btn.coming-soon { background: rgba(255,255,255,0.25); cursor: default; pointer-events: none; }
+
+  /* Sections */
+  .container { max-width: 800px; margin: 0 auto; padding: 0 24px; }
+  .section { padding: 56px 0; }
+  .section-title { font-size: 22px; font-weight: 700; color: #0E7490; text-align: center; margin-bottom: 36px; }
+
+  /* Features grid */
+  .features { display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 20px; }
+  .feature-card {
+    background: #fff; border-radius: 16px; padding: 28px 22px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08); text-align: center; transition: transform 0.15s;
+  }
+  .feature-card:hover { transform: translateY(-3px); }
+  .feature-icon { font-size: 36px; margin-bottom: 12px; }
+  .feature-card h3 { font-size: 16px; font-weight: 700; color: #0E7490; margin-bottom: 8px; }
+  .feature-card p { font-size: 14px; color: #6B7280; line-height: 1.6; }
+
+  /* Phone Mockup Showcase */
+  .showcase { display: flex; gap: 40px; align-items: center; flex-wrap: wrap; justify-content: center; margin-bottom: 56px; }
+  .showcase:last-child { margin-bottom: 0; }
+  .showcase.reverse { flex-direction: row-reverse; }
+  .phone-frame {
+    width: 260px; min-height: 460px; background: #1F2937;
+    border-radius: 36px; padding: 12px;
+    box-shadow: 0 20px 60px rgba(0,0,0,0.18); flex-shrink: 0;
+  }
+  .mock-screen {
+    background: #F9FAFB; border-radius: 26px; overflow: hidden; min-height: 436px;
+  }
+  .mock-status-bar {
+    color: rgba(255,255,255,0.9); font-size: 11px; padding: 10px 16px 6px;
+    display: flex; justify-content: space-between;
+  }
+  .mock-header { color: white; padding: 8px 16px 14px; font-size: 17px; font-weight: 700; }
+  .mock-status-bar, .mock-header { background: #0891B2; }
+  .mock-body { padding: 12px; }
+  .mock-card {
+    background: #fff; border-radius: 12px; padding: 12px; margin-bottom: 10px;
+    box-shadow: 0 1px 4px rgba(0,0,0,0.06); font-size: 12px; color: #374151;
+  }
+  .mock-card-title { font-weight: 700; font-size: 13px; margin-bottom: 4px; color: #0E7490; }
+  .mock-tag {
+    display: inline-block; background: #E0F7FA; color: #0891B2;
+    border-radius: 6px; padding: 2px 8px; font-size: 10px; font-weight: 600; margin-right: 4px;
+  }
+  .mock-tag.lock { background: #F3E8FF; color: #7C3AED; }
+  .mock-tag.warn { background: #FEF3C7; color: #92400E; }
+  .mock-tag.danger { background: #FEE2E2; color: #DC2626; }
+  .mock-tag.green { background: #DCFCE7; color: #16A34A; }
+  .mock-photo-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 4px; margin-top: 8px; }
+  .mock-photo {
+    background: linear-gradient(135deg, #A5F3FC, #67E8F9);
+    border-radius: 6px; height: 56px; display: flex; align-items: center; justify-content: center; font-size: 20px;
+  }
+  .mock-photo:nth-child(2) { background: linear-gradient(135deg, #FDE68A, #FCD34D); }
+  .mock-photo:nth-child(3) { background: linear-gradient(135deg, #BBF7D0, #86EFAC); }
+  .mock-photo:nth-child(4) { background: linear-gradient(135deg, #FECACA, #FCA5A5); }
+  .mock-divider { height: 1px; background: #F3F4F6; margin: 8px 0; }
+  .mock-chat-bubble {
+    background: #E0F7FA; border-radius: 12px 12px 12px 4px;
+    padding: 10px 12px; font-size: 11px; color: #0E7490; margin-bottom: 8px; line-height: 1.5;
+  }
+  .mock-chat-bubble.user {
+    background: #F3F4F6; border-radius: 12px 12px 4px 12px;
+    color: #374151; text-align: right;
+  }
+  .mock-scan-area {
+    border: 2px dashed #0891B2; border-radius: 12px; padding: 20px;
+    text-align: center; margin-bottom: 10px; background: #F0FDFA;
+  }
+  .mock-progress {
+    height: 6px; background: #E5E7EB; border-radius: 3px; overflow: hidden; margin-top: 6px;
+  }
+  .mock-progress-bar {
+    height: 100%; border-radius: 3px;
+  }
+
+  .showcase-text { flex: 1; min-width: 260px; }
+  .showcase-text h3 { font-size: 20px; font-weight: 700; color: #1F2937; margin-bottom: 12px; }
+  .showcase-text p { font-size: 15px; color: #6B7280; line-height: 1.8; margin-bottom: 12px; }
+  .showcase-text .highlight {
+    display: inline-flex; align-items: center; gap: 8px;
+    background: #F0FDFA; border: 1px solid #99F6E4; border-radius: 10px;
+    padding: 8px 14px; font-size: 13px; color: #0E7490; font-weight: 500; margin-top: 4px;
+  }
+
+  /* Plans */
+  .plans { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 20px; }
+  .plan-card {
+    background: #fff; border-radius: 16px; padding: 28px 24px;
+    box-shadow: 0 2px 12px rgba(8,145,178,0.08); text-align: center;
+  }
+  .plan-card.premium { border: 2px solid #0891B2; position: relative; }
+  .plan-card.premium::before {
+    content: 'おすすめ'; position: absolute; top: -12px; left: 50%; transform: translateX(-50%);
+    background: #0891B2; color: #fff; font-size: 12px; font-weight: 600; padding: 3px 14px; border-radius: 10px;
+  }
+  .plan-name { font-size: 18px; font-weight: 700; color: #0E7490; margin-bottom: 4px; }
+  .plan-price { font-size: 28px; font-weight: 800; color: #1F2937; margin-bottom: 16px; }
+  .plan-price span { font-size: 14px; font-weight: 400; color: #9CA3AF; }
+  .plan-features { list-style: none; text-align: left; margin-bottom: 0; }
+  .plan-features li { font-size: 14px; color: #4B5563; padding: 6px 0; border-bottom: 1px solid #F3F4F6; }
+  .plan-features li::before { content: '✓ '; color: #0891B2; font-weight: 700; }
+
+  /* Safety banner */
+  .safety-banner {
+    background: linear-gradient(135deg, #FEF3C7, #FDE68A);
+    border-radius: 16px; padding: 28px; text-align: center;
+  }
+  .safety-banner h3 { font-size: 17px; color: #92400E; margin-bottom: 8px; }
+  .safety-banner p { font-size: 14px; color: #78350F; }
+
+  /* Footer */
+  footer {
+    background: #0E7490; color: rgba(255,255,255,0.85);
+    text-align: center; padding: 36px 24px; font-size: 13px;
+  }
+  footer a { color: #A5F3FC; text-decoration: none; margin: 0 12px; }
+  footer a:hover { text-decoration: underline; }
+  .footer-links { margin-bottom: 16px; }
+  .footer-company { opacity: 0.7; font-size: 12px; }
+
+  /* Responsive */
+  @media (max-width: 600px) {
+    .hero h1 { font-size: 26px; }
+    .features, .plans { grid-template-columns: 1fr; }
+    .section { padding: 40px 0; }
+    .showcase { gap: 28px; }
+    .showcase, .showcase.reverse { flex-direction: column; }
+    .phone-frame { width: 230px; min-height: 400px; }
+    .mock-screen { min-height: 376px; }
+  }
+</style>
+</head>
+<body>
+
+<!-- ===== Hero ===== -->
+<section class="hero">
+  <img src="images/mascot.png" alt="TripReady マスコット" class="hero-mascot" onerror="this.style.display='none'">
+  <h1>TripReady</h1>
+  <p class="subtitle">海外旅行がはじめてでも安心。AIが準備から出発までサポート。</p>
+  <div class="badge-row">
+    <span class="badge">✈️ 旅行計画</span>
+    <span class="badge">🤖 AIアシスタント</span>
+    <span class="badge">🛡️ 安全情報</span>
+    <span class="badge">🌤️ 天気予報</span>
+    <span class="badge">💰 旅費管理</span>
+    <span class="badge">📶 オフライン対応</span>
+  </div>
+  <a class="store-btn coming-soon">App Store — 近日公開</a>
+</section>
+
+<!-- ===== Feature Grid ===== -->
+<section class="section">
+  <div class="container">
+    <h2 class="section-title">主な機能</h2>
+    <div class="features">
+      <div class="feature-card">
+        <div class="feature-icon">📋</div>
+        <h3>旅行プラン管理</h3>
+        <p>フライト・ホテル・保険をまとめて管理。家族全員のパスポートやマイレージも一元管理できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📸</div>
+        <h3>AIスキャン</h3>
+        <p>航空券・パスポート・ホテル予約・観光チケット・保険証書をカメラで撮影。AIが内容を読み取り自動で登録します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>空港アクセス</h3>
+        <p>空港への経路をGoogleマップと連動してご案内。出発時刻から逆算した出発目安時刻も表示します。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⏰</div>
+        <h3>チェックイン締め切り</h3>
+        <p>航空会社ごとのチェックイン締め切り時間を自動表示。ANA・JAL・LCCなど各社の締め切りを把握できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🔔</div>
+        <h3>パスポート期限通知</h3>
+        <p>パスポートの有効期限が6ヶ月を切ったらアプリが通知。更新忘れによる渡航トラブルを未然に防ぎます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">⚠️</div>
+        <h3>渡航安全情報</h3>
+        <p>外務省の海外安全情報と連携。渡航先の危険レベルをリアルタイムで確認できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🏥</div>
+        <h3>保険AIコンサル</h3>
+        <p>海外旅行保険の補償内容をAIが分析。歯科治療や持病カバーなど、気になるポイントを確認できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🗺️</div>
+        <h3>空港ガイドAI</h3>
+        <p>空港での乗り換え、免税店、ラウンジ情報をAIがリアルタイムでガイド。初めての空港も安心です。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📝</div>
+        <h3>持ち物チェックリスト</h3>
+        <p>渡航先・季節・期間に応じた持ち物リストを自動生成。チェックボックスで準備状況をプログレスバーで可視化。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💱</div>
+        <h3>通貨換算</h3>
+        <p>30通貨対応のリアルタイム換算。渡航先の通貨を自動選択し、ワンタップで簡単に計算できます。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🆘</div>
+        <h3>緊急連絡先</h3>
+        <p>22カ国の警察・救急・消防番号、日本大使館情報をオフラインで即座に表示。タップで発信可能。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌙</div>
+        <h3>夜間安全ガイド</h3>
+        <p>渡航先の夜間注意エリア・安全なエリアをAIが案内。ナイトライフの安全な楽しみ方もサポート。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📅</div>
+        <h3>旅程タイムライン</h3>
+        <p>フライト・ホテルを自動配置した日別スケジュール。観光や食事の予定も追加して旅のしおりに。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">💰</div>
+        <h3>旅費トラッカー</h3>
+        <p>旅行中の支出を現地通貨で記録し、日本円に自動換算。カテゴリ別内訳と予算管理もかんたん。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">🌤️</div>
+        <h3>天気予報</h3>
+        <p>渡航先の滞在期間中の天気を最大16日先まで表示。気温に合わせたパッキングアドバイスも自動生成。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📶</div>
+        <h3>オフライン対応</h3>
+        <p>旅行データ・緊急連絡先・安全情報をキャッシュ。ネットが繋がらない環境でも必要な情報にアクセス。</p>
+      </div>
+      <div class="feature-card">
+        <div class="feature-icon">📖</div>
+        <h3>旅の知恵袋</h3>
+        <p>パスポート準備から現地でのチップ、トラブル対処まで。海外旅行初心者が知っておくべき情報を網羅。</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 1: 旅行プラン管理 ===== -->
+<section class="section" style="background:#F0FDFA;">
+  <div class="container">
+    <h2 class="section-title">機能を詳しく見る</h2>
+
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>9:41</span><span>5G 🔋</span></div>
+          <div class="mock-header">✈️ 旅行一覧</div>
+          <div class="mock-body">
+            <div class="mock-card" style="border-left: 4px solid #0891B2;">
+              <div class="mock-card-title">🇸🇬 シンガポール家族旅行</div>
+              <div style="font-size:11px; color:#6B7280;">2026/04/28 - 05/03 • 6日間</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag">NH841</span>
+                <span class="mock-tag">Marina Bay Sands</span>
+              </div>
+              <div class="mock-progress"><div class="mock-progress-bar" style="width:75%; background:#0891B2;"></div></div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">準備 75% 完了</div>
+            </div>
+            <div class="mock-card" style="border-left: 4px solid #F59E0B;">
+              <div class="mock-card-title">🇫🇷 パリ出張</div>
+              <div style="font-size:11px; color:#6B7280;">2026/06/10 - 06/15 • 5日間</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag">AF275</span>
+                <span class="mock-tag warn">レベル1 注意</span>
+              </div>
+              <div class="mock-progress"><div class="mock-progress-bar" style="width:30%; background:#F59E0B;"></div></div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">準備 30% 完了</div>
+            </div>
+            <div class="mock-card" style="border-left: 4px solid #10B981; opacity:0.7;">
+              <div class="mock-card-title">🇰🇷 ソウル週末旅行</div>
+              <div style="font-size:11px; color:#6B7280;">2026/03/15 - 03/17 • 完了</div>
+              <div style="margin-top:6px;">
+                <span class="mock-tag green">旅行完了</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📋 すべての旅を一画面で管理</h3>
+        <p>旅行ごとにフライト、ホテル、保険、渡航要件をまとめて管理。準備の進捗バーで、あと何が足りないかが一目でわかります。</p>
+        <p>家族全員のパスポート番号やマイレージ番号も登録でき、予約のたびに探す手間がなくなります。</p>
+        <div class="highlight">📊 旅行の準備状況をパーセントで可視化</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 2: AIスキャン ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>11:05</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">📸 AIスキャン</div>
+          <div class="mock-body">
+            <div class="mock-scan-area">
+              <div style="font-size:32px; margin-bottom:8px;">📄</div>
+              <div style="font-size:12px; color:#0891B2; font-weight:600;">カメラで撮影 or 画像を選択</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">eチケット・パスポート・観光チケット<br>ホテル予約・保険証書に対応</div>
+            </div>
+            <div class="mock-card" style="border: 1px solid #0891B2;">
+              <div style="font-size:11px; color:#0891B2; font-weight:600; margin-bottom:6px;">✨ AI読み取り結果</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">便名</span><span style="font-weight:600;">NH841</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">区間</span><span style="font-weight:600;">NRT → SIN</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">日付</span><span style="font-weight:600;">2026/04/28</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0;">
+                <span style="color:#6B7280;">座席</span><span style="font-weight:600;">32A（窓側）</span>
+              </div>
+            </div>
+            <div style="text-align:center;">
+              <div style="display:inline-block; background:#0891B2; color:#fff; border-radius:10px; padding:8px 24px; font-size:13px; font-weight:600;">旅行プランに登録する</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📸 撮るだけで全部読み取り</h3>
+        <p>eチケット、パスポート、ホテルの予約確認書、観光施設の入場チケット、海外旅行保険の証書 — カメラで撮影するだけでAIが内容を自動で読み取り、旅行プランに登録します。</p>
+        <p>面倒な手入力は一切不要。撮って、確認して、登録するだけです。</p>
+        <div class="highlight">📄 チケット・パスポート・保険証書をAIが瞬時に解析</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 3: 空港ガイド AI ===== -->
+<section class="section" style="background:#F0F9FF;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>14:30</span><span>4G 🔋</span></div>
+          <div class="mock-header">🗺️ 空港ガイド AI</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F0FDFA; text-align:center; padding:8px;">
+              <span style="font-size:11px; color:#0891B2; font-weight:600;">チャンギ空港 (SIN) • ターミナル1</span>
+            </div>
+            <div class="mock-chat-bubble user">乗り換え時間が2時間あるけど、おすすめの過ごし方は？</div>
+            <div class="mock-chat-bubble">
+              チャンギ空港T1は2時間でも十分楽しめますよ！<br><br>
+              <b>おすすめ：</b><br>
+              🌿 Jewel — 滝と庭園（徒歩5分）<br>
+              🍜 フードコート（3F, ラクサが絶品）<br>
+              💆 無料マッサージチェア（Gate C付近）<br>
+              🛍️ 免税店 DFS（搭乗口近く）
+            </div>
+            <div class="mock-chat-bubble user">ラウンジはどこにある？</div>
+            <div class="mock-chat-bubble">
+              T1のラウンジは3カ所あります：<br>
+              ✈️ SATS Premier — Gate C1付近<br>
+              ✈️ dnata Lounge — Gate C20付近<br>
+              💳 プライオリティパスで利用可能です
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🗺️ 空港のことは何でも聞ける</h3>
+        <p>乗り換えの過ごし方、免税店の場所、ラウンジ情報、入国審査の手順 — 空港に関する疑問にAIがリアルタイムで回答します。</p>
+        <p>フライト情報から空港とターミナルを自動判別。的確な情報を、チャット形式でわかりやすくお届けします。</p>
+        <div class="highlight">💬 チャットで聞くだけ、空港のコンシェルジュ</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 4: 保険 AI コンサル ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>10:15</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">🏥 保険AIコンサル</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FFF7ED; border: 1px solid #FED7AA;">
+              <div style="font-size:11px; color:#C2410C; font-weight:600;">📋 損保ジャパン 海外旅行保険</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:2px;">証書をスキャン済み</div>
+            </div>
+            <div class="mock-chat-bubble user">歯科治療はカバーされる？</div>
+            <div class="mock-chat-bubble">
+              お手持ちの保険証書を確認しました。<br><br>
+              <b>歯科治療について：</b><br>
+              ⚠️ <b>緊急歯科治療のみ</b>対応<br>
+              💰 上限: 10万円<br>
+              📋 事前の歯科疾患は対象外<br><br>
+              <span style="font-size:10px; color:#6B7280;">※ 渡航前の治療をおすすめします</span>
+            </div>
+            <div class="mock-chat-bubble user">コロナで入院したらどうなる？</div>
+            <div class="mock-chat-bubble">
+              <b>感染症での入院：</b><br>
+              ✅ 治療費: 無制限<br>
+              ✅ 入院日額: 5,000円<br>
+              ✅ 帰国費用: カバーあり<br>
+              📞 24時間日本語ホットライン付き
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🏥 保険の「ここが知りたい」に即回答</h3>
+        <p>海外旅行保険の証書をスキャンするだけで、補償内容をAIが詳しく分析。歯科治療、持病、コロナ対応など、気になるポイントをチャットで質問できます。</p>
+        <p>保険の専門用語もわかりやすく説明。出発前の不安を解消します。</p>
+        <div class="highlight">📄 保険証書をスキャン → AIが補償内容を解説</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 5: 渡航安全情報 ===== -->
+<section class="section" style="background:#FFFBEB;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#92400E;"><span>16:42</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#92400E;">⚠️ 渡航安全情報</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:13px; font-weight:700; color:#92400E;">🇵🇭 フィリピン</div>
+              <div style="margin:6px 0;"><span class="mock-tag warn">レベル2：不要不急の渡航中止</span></div>
+              <div style="font-size:10px; color:#78350F;">ミンダナオ島の一部地域</div>
+            </div>
+            <div class="mock-card" style="background:#FEE2E2; border:1px solid #FECACA;">
+              <div style="font-size:13px; font-weight:700; color:#DC2626;">🇺🇦 ウクライナ</div>
+              <div style="margin:6px 0;"><span class="mock-tag danger">レベル4：退避勧告</span></div>
+              <div style="font-size:10px; color:#991B1B;">全域</div>
+            </div>
+            <div class="mock-card">
+              <div style="font-size:13px; font-weight:700; color:#0E7490;">🇸🇬 シンガポール</div>
+              <div style="margin:6px 0;"><span class="mock-tag green">レベル0：安全</span></div>
+              <div style="font-size:10px; color:#6B7280;">危険情報なし</div>
+            </div>
+            <div class="mock-card">
+              <div style="font-size:13px; font-weight:700; color:#0E7490;">🇫🇷 フランス</div>
+              <div style="margin:6px 0;"><span class="mock-tag" style="background:#FEF9C3; color:#A16207;">レベル1：十分注意</span></div>
+              <div style="font-size:10px; color:#6B7280;">一部地域（テロ警戒）</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>⚠️ 外務省データとリアルタイム連携</h3>
+        <p>外務省の海外安全情報オープンデータを毎日自動取得。渡航先の危険レベルを4段階で表示し、地域ごとの詳細情報もわかります。</p>
+        <p>レベル2以上の国を旅行先に選ぶと、計画作成時に警告バナーを表示。安全を最優先にサポートします。</p>
+        <div class="highlight">🛡️ 旅行計画時に危険地域を自動で警告</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 6: 空港アクセス＆チェックイン ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>7:15</span><span>5G 🔋</span></div>
+          <div class="mock-header">🛫 出発日ガイド</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F0FDFA; border:1px solid #99F6E4;">
+              <div style="font-size:11px; color:#0891B2; font-weight:700;">NH841 NRT → SIN</div>
+              <div style="font-size:10px; color:#6B7280; margin-top:2px;">2026/04/28 (月) 10:30 出発</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">⏰ チェックイン締め切り</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span style="color:#6B7280;">ANA国際線</span><span style="font-weight:600; color:#DC2626;">出発 60分前</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0;">
+                <span style="color:#6B7280;">締め切り時刻</span><span style="font-weight:700; color:#DC2626;">09:30</span>
+              </div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:4px;">※ 出発2時間前の到着を推奨</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">🗺️ 空港への経路</div>
+              <div style="background:linear-gradient(135deg,#E0F7FA,#B2EBF2); border-radius:8px; padding:12px; text-align:center; margin:6px 0;">
+                <div style="font-size:18px;">🚃</div>
+                <div style="font-size:11px; font-weight:600; color:#0E7490;">自宅 → 成田空港 T1</div>
+                <div style="font-size:10px; color:#0891B2;">約1時間30分 • 乗り換え1回</div>
+              </div>
+              <div style="text-align:center;">
+                <div style="display:inline-block; background:#4285F4; color:#fff; border-radius:8px; padding:6px 16px; font-size:11px; font-weight:600;">Google マップで経路を開く</div>
+              </div>
+            </div>
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:11px; color:#92400E; font-weight:600;">🕗 遅くとも 7:00 には出発しましょう</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🗺️ 空港への経路もおまかせ</h3>
+        <p>登録したフライト情報から、出発日に空港への経路をGoogleマップと連動してご案内。電車・バス・車など最適なルートがワンタップで開きます。</p>
+        <p>さらに、各航空会社ごとのチェックイン締め切り時刻を自動表示。ANA・JAL・ピーチ・ジェットスターなど、それぞれ異なる締め切り時間を一目で確認できます。</p>
+        <div class="highlight">⏰ 航空会社別の締め切り時刻を自動計算</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 7: パスポート期限通知 ===== -->
+<section class="section" style="background:#FFF7ED;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#C2410C;"><span>10:00</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#C2410C;">🔔 お知らせ</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FEF3C7; border:1px solid #FDE68A;">
+              <div style="font-size:20px; text-align:center; margin-bottom:6px;">⚠️</div>
+              <div style="font-size:13px; font-weight:700; color:#92400E; text-align:center;">パスポートの有効期限が<br>残り5ヶ月です</div>
+              <div style="margin:10px 0; padding:10px; background:#fff; border-radius:8px;">
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                  <span style="color:#6B7280;">氏名</span><span style="font-weight:600;">高田 光彦</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0; border-bottom:1px solid #F3F4F6;">
+                  <span style="color:#6B7280;">有効期限</span><span style="font-weight:600; color:#DC2626;">2026/08/15</span>
+                </div>
+                <div style="display:flex; justify-content:space-between; font-size:11px; padding:3px 0;">
+                  <span style="color:#6B7280;">残り</span><span style="font-weight:700; color:#DC2626;">約5ヶ月</span>
+                </div>
+              </div>
+              <div style="font-size:10px; color:#78350F; line-height:1.5;">多くの国ではパスポートの残存有効期間が6ヶ月以上必要です。早めの更新をおすすめします。</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">👨‍👩‍👧 家族のパスポート</div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span>高田 光彦</span><span style="color:#DC2626; font-weight:600;">⚠️ 残5ヶ月</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0; border-bottom:1px solid #F3F4F6;">
+                <span>高田 花子</span><span style="color:#16A34A;">✅ 残3年</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:11px; padding:4px 0;">
+                <span>高田 太郎</span><span style="color:#16A34A;">✅ 残4年</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🔔 パスポート期限を見逃さない</h3>
+        <p>登録したパスポートの有効期限が残り6ヶ月を切ると、アプリが自動で通知します。多くの国では残存有効期間6ヶ月以上が入国条件のため、うっかり期限切れで渡航できない事態を防ぎます。</p>
+        <p>家族全員のパスポートもまとめて管理。一覧画面で全員の残り期間がひと目でわかります。</p>
+        <div class="highlight">👨‍👩‍👧 家族全員のパスポート期限を一括管理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 8: お忍びモード ===== -->
+<section class="section" style="background: #F8F5FF;">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#7C3AED;"><span>9:41</span><span>5G 🔋</span></div>
+          <div class="mock-header" style="background:#7C3AED;">🔒 お忍び旅行</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#F8F5FF; border:1px solid #E9D5FF; text-align:center; padding:20px 12px;">
+              <div style="font-size:28px; margin-bottom:8px;">🔒</div>
+              <div style="font-size:13px; color:#7C3AED; font-weight:700;">認証が必要です</div>
+              <div style="font-size:10px; color:#9CA3AF; margin-top:6px;">お忍び旅行を表示するには<br>認証してください</div>
+              <div style="margin-top:12px; display:inline-block; background:#7C3AED; color:#fff; border-radius:10px; padding:8px 20px; font-size:12px; font-weight:600;">Face ID / パスコードで解除</div>
+            </div>
+            <div style="text-align:center; font-size:10px; color:#9CA3AF; margin:12px 0 8px;">▼ 認証後 ▼</div>
+            <div class="mock-card">
+              <div class="mock-card-title">🎂 妻の誕生日 in パリ</div>
+              <div style="margin: 6px 0;"><span class="mock-tag lock">お忍び保護中</span></div>
+              <div style="color:#9CA3AF; font-size:11px;">2026/06/15 - 06/22 • フランス 🇫🇷</div>
+            </div>
+            <div class="mock-card">
+              <div class="mock-card-title">🛫 NH215 NRT → CDG</div>
+              <div style="font-size:11px;">06/15 10:30 発</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🤫 お忍びモード — プライバシーを守る</h3>
+        <p>サプライズ旅行や特別な計画を、普段の画面から完全に隠すことができます。</p>
+        <p>お忍びモードに設定された旅行プランは、認証しない限り一覧にも表示されません。Face ID・Touch ID・パスコードに対応しているので、大切な人に見られてしまう心配はありません。</p>
+        <div class="highlight">🔐 認証で安全にプライバシーを保護</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 8-b: トラベルアルバム ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>14:23</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">📷 シンガポール 2026</div>
+          <div class="mock-body">
+            <div class="mock-card">
+              <div class="mock-card-title">旅の思い出アルバム</div>
+              <div style="font-size:11px; color:#6B7280; margin-bottom:4px;">24枚の写真と書類</div>
+              <div class="mock-photo-grid">
+                <div class="mock-photo">🌴</div>
+                <div class="mock-photo">🍜</div>
+                <div class="mock-photo">🏙️</div>
+                <div class="mock-photo">🌅</div>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 1 — チャンギ空港</div>
+                <span style="font-size:10px; color:#9CA3AF;">4枚</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 2 — マリーナベイ</div>
+                <span style="font-size:10px; color:#9CA3AF;">12枚</span>
+              </div>
+            </div>
+            <div class="mock-card">
+              <div style="display:flex; justify-content:space-between; align-items:center;">
+                <div class="mock-card-title" style="margin:0;">Day 3 — セントーサ島</div>
+                <span style="font-size:10px; color:#9CA3AF;">8枚</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>📷 旅ごとのフォトアルバム</h3>
+        <p>旅行中に撮影した写真や書類のスキャン画像を、旅程ごとに自動で整理。旅の思い出がひとつのアルバムにまとまります。</p>
+        <p>eチケットのスキャン画像から現地で撮った風景写真まで — すべてが旅行プランに紐づいた一冊のアルバムになります。</p>
+        <div class="highlight">📁 フライト・ホテル・写真を旅ごとにまとめて管理</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 9: 天気予報 & 旅費トラッカー ===== -->
+<section class="section" style="background:#EFF6FF;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>8:45</span><span>Wi-Fi 🔋</span></div>
+          <div class="mock-header">🌤️ ハワイの天気</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#EFF6FF; border:1px solid #BFDBFE;">
+              <div style="display:flex; justify-content:space-around; text-align:center; margin-bottom:8px;">
+                <div><div style="font-size:10px; color:#6B7280;">平均最高</div><div style="font-size:16px; font-weight:700; color:#DC2626;">29°</div></div>
+                <div><div style="font-size:10px; color:#6B7280;">平均最低</div><div style="font-size:16px; font-weight:700; color:#2563EB;">22°</div></div>
+                <div><div style="font-size:10px; color:#6B7280;">雨の日</div><div style="font-size:16px; font-weight:700; color:#6B7280;">2日</div></div>
+              </div>
+              <div style="font-size:10px; color:#1E40AF;">☀️ 日焼け止め・帽子・サングラス必須</div>
+              <div style="font-size:10px; color:#1E40AF;">🌂 雨の日あり。折りたたみ傘を持っていくと安心</div>
+            </div>
+            <div style="display:flex; gap:6px; overflow:hidden;">
+              <div style="text-align:center; background:#fff; border-radius:10px; padding:6px 8px; border:1px solid #E5E7EB; min-width:50px;">
+                <div style="font-size:10px; color:#6B7280;">04/28</div>
+                <div style="font-size:18px;">☀️</div>
+                <div style="font-size:11px; font-weight:700; color:#DC2626;">30°</div>
+                <div style="font-size:10px; color:#2563EB;">23°</div>
+              </div>
+              <div style="text-align:center; background:#fff; border-radius:10px; padding:6px 8px; border:1px solid #E5E7EB; min-width:50px;">
+                <div style="font-size:10px; color:#6B7280;">04/29</div>
+                <div style="font-size:18px;">⛅</div>
+                <div style="font-size:11px; font-weight:700; color:#DC2626;">28°</div>
+                <div style="font-size:10px; color:#2563EB;">22°</div>
+              </div>
+              <div style="text-align:center; background:#fff; border-radius:10px; padding:6px 8px; border:1px solid #E5E7EB; min-width:50px;">
+                <div style="font-size:10px; color:#6B7280;">04/30</div>
+                <div style="font-size:18px;">🌧️</div>
+                <div style="font-size:11px; font-weight:700; color:#DC2626;">26°</div>
+                <div style="font-size:10px; color:#2563EB;">21°</div>
+                <div style="font-size:9px; color:#6B7280;">☔60%</div>
+              </div>
+              <div style="text-align:center; background:#fff; border-radius:10px; padding:6px 8px; border:1px solid #E5E7EB; min-width:50px;">
+                <div style="font-size:10px; color:#6B7280;">05/01</div>
+                <div style="font-size:18px;">☀️</div>
+                <div style="font-size:11px; font-weight:700; color:#DC2626;">31°</div>
+                <div style="font-size:10px; color:#2563EB;">23°</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>🌤️ 渡航先の天気予報で準備万全</h3>
+        <p>渡航先の滞在期間中の天気を最大16日先まで表示。平均気温、降水確率、UV指数から、パッキングのアドバイスを自動生成します。</p>
+        <p>「日焼け止め必須」「雨具を持っていこう」「ダウン推奨」など、気温と天候に合わせた荷造りが簡単に。完全無料のOpen-Meteo APIで、追加コストもゼロ。</p>
+        <div class="highlight">🎒 天気に合わせたパッキングアドバイスを自動提案</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 10: 旅費トラッカー & タイムライン ===== -->
+<section class="section">
+  <div class="container">
+    <div class="showcase reverse">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar"><span>19:30</span><span>4G 🔋</span></div>
+          <div class="mock-header">💰 旅費トラッカー</div>
+          <div class="mock-body">
+            <div class="mock-card" style="background:#FFFBEB; border:1px solid #FDE68A;">
+              <div style="display:flex; justify-content:space-between; align-items:baseline;">
+                <span style="font-size:11px; font-weight:700; color:#92400E;">合計支出</span>
+                <span style="font-size:18px; font-weight:800; color:#1F2937;">¥87,340</span>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:10px; color:#6B7280; margin-top:4px;">
+                <span>1日平均: ¥17,468</span><span>12件</span>
+              </div>
+              <div style="height:6px; background:#FEF3C7; border-radius:3px; margin-top:8px; overflow:hidden;">
+                <div style="height:6px; background:#F59E0B; border-radius:3px; width:58%;"></div>
+              </div>
+              <div style="display:flex; justify-content:space-between; font-size:10px; margin-top:4px;">
+                <span style="color:#6B7280;">予算残り</span>
+                <span style="font-weight:700; color:#059669;">¥62,660</span>
+              </div>
+            </div>
+            <div class="mock-card" style="font-size:11px;">
+              <div style="font-weight:700; margin-bottom:6px;">カテゴリ内訳</div>
+              <div style="display:flex; align-items:center; margin-bottom:4px;"><span style="width:20px;">🍽️</span><span style="flex:1;">食事</span><span style="color:#6B7280; margin-right:6px;">42%</span><span style="font-weight:600;">¥36,683</span></div>
+              <div style="display:flex; align-items:center; margin-bottom:4px;"><span style="width:20px;">🚕</span><span style="flex:1;">交通</span><span style="color:#6B7280; margin-right:6px;">23%</span><span style="font-weight:600;">¥20,088</span></div>
+              <div style="display:flex; align-items:center; margin-bottom:4px;"><span style="width:20px;">🛍️</span><span style="flex:1;">買い物</span><span style="color:#6B7280; margin-right:6px;">19%</span><span style="font-weight:600;">¥16,595</span></div>
+              <div style="display:flex; align-items:center;"><span style="width:20px;">🎯</span><span style="flex:1;">アクティビティ</span><span style="color:#6B7280; margin-right:6px;">16%</span><span style="font-weight:600;">¥13,974</span></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3>💰 旅費をスマートに管理</h3>
+        <p>旅行中の支出を現地通貨で入力するだけで、日本円に自動換算。カテゴリ別の内訳や1日平均を即座に表示します。</p>
+        <p>予算を設定すれば残額もリアルタイムで把握。「食事に使いすぎた」「交通費が予想以上」など、お金の使い方が一目でわかります。帰国後の精算にも便利。</p>
+        <div class="highlight">💱 通貨換算と連動、30通貨に対応</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Showcase 11: 夜間安全ガイド ===== -->
+<section class="section" style="background:#1E1B4B;">
+  <div class="container">
+    <div class="showcase">
+      <div class="phone-frame">
+        <div class="mock-screen">
+          <div class="mock-status-bar" style="background:#312E81;"><span>22:15</span><span>4G 🔋</span></div>
+          <div class="mock-header" style="background:#312E81;">🌙 夜間安全ガイド</div>
+          <div class="mock-body" style="background:#1E1B4B;">
+            <div class="mock-card" style="background:#312E81; border:1px solid #4338CA;">
+              <div style="font-size:12px; font-weight:700; color:#A5B4FC;">🌙 夜間の安全度: 要注意</div>
+              <div style="font-size:10px; color:#818CF8; margin-top:2px;">日没 18:30 頃</div>
+            </div>
+            <div class="mock-card" style="background:#312E81; border:1px solid #7F1D1D;">
+              <div style="font-size:11px; font-weight:700; color:#FCA5A5; margin-bottom:4px;">⚠️ 夜間注意エリア</div>
+              <div style="font-size:10px; color:#FCA5A5;">• ワイキキ西側（クヒオ通り奥）</div>
+              <div style="font-size:10px; color:#FCA5A5;">• チャイナタウン周辺</div>
+            </div>
+            <div class="mock-card" style="background:#312E81; border:1px solid #065F46;">
+              <div style="font-size:11px; font-weight:700; color:#6EE7B7; margin-bottom:4px;">✅ 比較的安全なエリア</div>
+              <div style="font-size:10px; color:#6EE7B7;">• ワイキキ中心部（カラカウア通り）</div>
+              <div style="font-size:10px; color:#6EE7B7;">• アラモアナセンター周辺</div>
+            </div>
+            <div class="mock-card" style="background:#312E81; border:1px solid #4338CA;">
+              <div style="font-size:11px; font-weight:700; color:#C4B5FD; margin-bottom:4px;">🚕 夜間の移動手段</div>
+              <div style="font-size:10px; color:#A5B4FC;">Uber/Lyftを強く推奨。深夜の徒歩は避ける。</div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="showcase-text">
+        <h3 style="color:#E0E7FF;">🌙 夜も安全に旅を楽しむ</h3>
+        <p style="color:#C7D2FE;">渡航先の夜間に注意すべきエリア、安全に楽しめるエリアを国・都市別に表示。夜間の移動手段、飲食の注意点、よくある詐欺の手口もまとめて確認できます。</p>
+        <p style="color:#C7D2FE;">AIに具体的な質問もOK。「バンコクで安全に飲めるバーは？」「パリの夜、安全な移動手段は？」など、現地に合わせたアドバイスをリアルタイムで。</p>
+        <div class="highlight" style="background:rgba(99,102,241,0.2); border-color:#6366F1; color:#A5B4FC;">🛡️ 8つのユニバーサル夜間ルールで安全を確保</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Plans ===== -->
+<section class="section" style="background: #F0FDFA;">
+  <div class="container">
+    <h2 class="section-title">料金プラン</h2>
+    <div class="plans">
+      <div class="plan-card">
+        <div class="plan-name">🆓 無料プラン</div>
+        <div class="plan-price">¥0</div>
+        <ul class="plan-features">
+          <li>旅行プラン作成・管理</li>
+          <li>フライト・ホテル情報管理</li>
+          <li>渡航安全情報の確認</li>
+          <li>通貨換算・天気予報・旅費トラッカー</li>
+          <li>緊急連絡先・夜間安全ガイド</li>
+          <li>パッキングリスト・旅程タイムライン</li>
+          <li>オフライン対応</li>
+          <li>AI機能 10回まで（生涯）</li>
+        </ul>
+      </div>
+      <div class="plan-card premium">
+        <div class="plan-name">🌟 プレミアム</div>
+        <div class="plan-price">¥300<span> / 月</span></div>
+        <ul class="plan-features">
+          <li>無料プランの全機能</li>
+          <li>AI機能 月50回まで</li>
+          <li>AIスキャン（チケット・パスポート・保険証書）</li>
+          <li>保険コンサルAI</li>
+          <li>空港ガイドAI</li>
+          <li>夜間安全ガイドAI</li>
+        </ul>
+      </div>
+    </div>
+    <p style="text-align:center; font-size:12px; color:#9CA3AF; margin-top:16px;">
+      * AI回数の範囲内での利用となります。サブスクリプションはApp Store経由で管理されます。
+    </p>
+  </div>
+</section>
+
+<!-- ===== Safety ===== -->
+<section class="section">
+  <div class="container">
+    <div class="safety-banner" style="margin-bottom:20px;">
+      <h3>🌏 海外旅行がはじめてでも安心</h3>
+      <p>パスポートの準備からチェックインの手順、空港での過ごし方まで — 旅の初心者がつまずきやすいポイントをAIが丁寧にガイドします。<br>
+      渡航先ごとのビザ要件、持ち物リスト、危険情報もアプリがまとめて教えてくれるので、調べる手間がかかりません。</p>
+    </div>
+    <div class="safety-banner" style="background:linear-gradient(135deg, #E0F7FA, #B2EBF2);">
+      <h3>🛡️ あなたのデータはあなたのデバイスに</h3>
+      <p>パスポート番号やフライト情報などの個人データは、すべてお使いのデバイス内に保存されます。<br>
+      サーバーに個人情報を保存しない設計で、プライバシーを最優先に守ります。</p>
+    </div>
+  </div>
+</section>
+
+<!-- ===== Footer ===== -->
+<footer>
+  <div class="footer-links">
+    <a href="privacy-policy.html">プライバシーポリシー</a>
+    <a href="terms-of-service.html">利用規約</a>
+  </div>
+  <div class="footer-company">
+    &copy; 2026 株式会社ランダムコーポレーション (RANDAM CORPORATION, K.K.)<br>
+    お問い合わせ: takatadc@gmail.com
+  </div>
+</footer>
+
+</body>
+</html>

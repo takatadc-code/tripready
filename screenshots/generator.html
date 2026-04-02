@@ -1,0 +1,509 @@
+<!DOCTYPE html>
+<html lang="ja">
+<head>
+<meta charset="UTF-8">
+<title>TripReady App Store Screenshots Generator</title>
+<style>
+  body { font-family: -apple-system, BlinkMacSystemFont, sans-serif; background: #1a1a2e; color: white; padding: 20px; text-align: center; }
+  h1 { margin-bottom: 10px; }
+  p { color: #aaa; margin-bottom: 30px; }
+  .grid { display: flex; flex-wrap: wrap; gap: 20px; justify-content: center; }
+  .item { background: #222; border-radius: 12px; padding: 15px; }
+  .item canvas { border-radius: 8px; width: 200px; height: auto; }
+  .item button { margin-top: 10px; padding: 8px 20px; background: #007AFF; color: white; border: none; border-radius: 8px; cursor: pointer; font-size: 14px; }
+  .item button:hover { background: #005ec4; }
+  #downloadAll { margin: 20px; padding: 12px 40px; background: #34C759; color: white; border: none; border-radius: 10px; cursor: pointer; font-size: 18px; font-weight: bold; }
+  #downloadAll:hover { background: #28a745; }
+</style>
+</head>
+<body>
+<h1>TripReady App Store Screenshots</h1>
+<p>iPhone 6.7" (1290×2796) — 各画像をダウンロードしてApp Store Connectにアップロード</p>
+<button id="downloadAll" onclick="downloadAll()">全スクリーンショットをダウンロード</button>
+<div class="grid" id="grid"></div>
+
+<script>
+const W = 1290, H = 2796;
+const screenshots = [];
+
+function createCanvas() {
+  const c = document.createElement('canvas');
+  c.width = W; c.height = H;
+  return c;
+}
+
+function gradient(ctx, y1, y2, c1, c2) {
+  const g = ctx.createLinearGradient(0, y1, 0, y2);
+  g.addColorStop(0, c1); g.addColorStop(1, c2);
+  return g;
+}
+
+function rrect(ctx, x, y, w, h, r, fill) {
+  ctx.beginPath();
+  ctx.roundRect(x, y, w, h, r);
+  ctx.fillStyle = fill;
+  ctx.fill();
+}
+
+function phone(ctx, x, y, w, h) {
+  rrect(ctx, x, y, w, h, 60, '#0f0f14');
+  rrect(ctx, x+12, y+12, w-24, h-24, 50, '#f5f7fc');
+}
+
+function header(ctx, x, y, w, text, color) {
+  rrect(ctx, x, y, w, 90, 18, color);
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 48px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText(text, x+30, y+60);
+}
+
+function headline(ctx, text, sub) {
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 68px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText(text, W/2, 150);
+  ctx.fillStyle = 'rgba(200,220,255,0.8)';
+  ctx.font = '40px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText(sub, W/2, 230);
+  ctx.textAlign = 'left';
+}
+
+// ===== Screenshot 1: Trip List =====
+function ss1() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#142e6e', '#2355a5');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '✈️ すべての旅を一画面で管理', 'フライト・ホテル・保険をまとめて管理');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '✈️  旅行一覧', '#007AFF');
+
+  const cards = [
+    {flag:'🇸🇬', title:'シンガポール家族旅行', date:'2026/04/28 - 05/03 • 6日間', detail:'NH841 • Marina Bay Sands', pct:75, color:'#34C759'},
+    {flag:'🇫🇷', title:'パリ出張', date:'2026/06/10 - 06/15 • 5日間', detail:'AF275 • Hotel Le Marais', pct:30, color:'#FF9500'},
+    {flag:'🇰🇷', title:'ソウル週末旅行', date:'2026/03/15 - 03/17 • 完了', detail:'KE714 • Lotte Hotel', pct:100, color:'#8E8E93'},
+  ];
+
+  let cardY = cy + 130;
+  cards.forEach(c => {
+    rrect(ctx, cx, cardY, cw, 400, 25, '#fff');
+    ctx.font = '52px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#1e1e32';
+    ctx.fillText(c.flag + ' ' + c.title, cx+30, cardY+60);
+    ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#78829a';
+    ctx.fillText(c.date, cx+30, cardY+120);
+    ctx.font = '30px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(c.detail, cx+30, cardY+175);
+
+    // Progress bar
+    const by=cardY+240, bw=cw-280;
+    rrect(ctx, cx+30, by, bw, 40, 20, '#e6ebf0');
+    rrect(ctx, cx+30, by, Math.max(bw*c.pct/100,1), 40, 20, c.color);
+    ctx.fillStyle = c.color;
+    ctx.font = 'bold 32px -apple-system, "Hiragino Sans", sans-serif';
+    const label = c.pct < 100 ? `準備 ${c.pct}%` : '旅行完了';
+    ctx.fillText(label, cx+30+bw+15, by+30);
+
+    // Divider
+    ctx.fillStyle = '#eee';
+    if(c.pct < 100) { rrect(ctx, cx+30, cardY+310, cw-60, 1, 0, '#eee'); }
+    // Feature badges
+    ctx.font = '28px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#007AFF';
+    const badges = c.pct===75 ? ['安全情報 ✓','天気 ✓','保険 ✓'] : c.pct===30 ? ['⚠️ レベル1 注意'] : ['完了'];
+    let bx = cx+30;
+    badges.forEach(b => {
+      rrect(ctx, bx, cardY+330, ctx.measureText(b).width+24, 40, 20, '#EBF5FF');
+      ctx.fillText(b, bx+12, cardY+358);
+      bx += ctx.measureText(b).width + 40;
+    });
+
+    cardY += 420;
+  });
+
+  // Bottom nav
+  rrect(ctx, cx, cardY+20, cw, 100, 20, '#fff');
+  const tabs = ['✈️ 旅行','🛫 フライト','👨‍👩‍👧 家族','⚙️ 設定'];
+  tabs.forEach((t,i) => {
+    ctx.fillStyle = i===0 ? '#007AFF' : '#8E8E93';
+    ctx.font = (i===0?'bold ':'') + '34px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(t, cx+30+i*(cw/4), cardY+75);
+  });
+
+  return c;
+}
+
+// ===== Screenshot 2: AI Scan =====
+function ss2() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#642878', '#3c1464');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '📸 撮るだけで自動登録', 'AIが航空券・パスポートを瞬時に読み取り');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '📸  AIスキャン', '#822096');
+
+  // Camera area
+  rrect(ctx, cx, cy+130, cw, 280, 25, '#32323c');
+  ctx.textAlign = 'center';
+  ctx.font = '80px -apple-system';
+  ctx.fillStyle = '#b0b0b8';
+  ctx.fillText('📷', cx+cw/2, cy+260);
+  ctx.font = '34px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('カメラで撮影  or  画像を選択', cx+cw/2, cy+340);
+  ctx.textAlign = 'left';
+
+  // Result card
+  const ry = cy + 450;
+  rrect(ctx, cx, ry, cw, 750, 25, '#fff');
+  ctx.fillStyle = '#007AFF';
+  ctx.font = 'bold 48px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('✨ AI読み取り結果', cx+30, ry+55);
+
+  const items = [
+    ['便名','NH841'], ['区間','NRT → SIN'], ['日付','2026/04/28'],
+    ['座席','32A（窓側）'], ['出発','10:30'], ['到着','17:05（現地時間）']
+  ];
+  let iy = ry + 120;
+  items.forEach(([k,v]) => {
+    ctx.fillStyle = '#78829a';
+    ctx.font = '38px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(k, cx+50, iy);
+    ctx.fillStyle = '#1e1e32';
+    ctx.fillText(v, cx+280, iy);
+    iy += 80;
+  });
+
+  // Button
+  rrect(ctx, cx+60, ry+640, cw-120, 80, 40, '#007AFF');
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 44px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('旅行プランに登録する', cx+cw/2, ry+695);
+  ctx.textAlign = 'left';
+
+  // Supported types
+  ctx.textAlign = 'center';
+  ctx.font = '30px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#78829a';
+  ctx.fillText('eチケット・パスポート・ホテル予約・保険証書に対応', cx+cw/2, ry+790);
+  ctx.textAlign = 'left';
+
+  return c;
+}
+
+// ===== Screenshot 3: Safety =====
+function ss3() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#82321e', '#5a1e14');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '⚠️ 渡航安全情報', '外務省データとリアルタイム連携');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '⚠️  渡航安全情報', '#FF3B30');
+
+  const countries = [
+    {flag:'🇸🇬', name:'シンガポール', level:'レベル0：安全', color:'#34C759', detail:'危険情報なし'},
+    {flag:'🇫🇷', name:'フランス', level:'レベル1：十分注意', color:'#FFCC00', detail:'一部地域（テロ警戒）'},
+    {flag:'🇵🇭', name:'フィリピン', level:'レベル2：不要不急の渡航中止', color:'#FF9500', detail:'ミンダナオ島の一部地域'},
+    {flag:'🇺🇦', name:'ウクライナ', level:'レベル4：退避勧告', color:'#FF3B30', detail:'全域'},
+  ];
+
+  let cardY = cy + 130;
+  countries.forEach(co => {
+    rrect(ctx, cx, cardY, cw, 290, 25, '#fff');
+    // Color bar on left
+    rrect(ctx, cx, cardY, 10, 290, [10,0,0,10], co.color);
+    ctx.font = '52px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#1e1e32';
+    ctx.fillText(co.flag + '  ' + co.name, cx+35, cardY+60);
+
+    // Level badge
+    rrect(ctx, cx+35, cardY+90, cw-70, 60, 30, co.color+'22');
+    ctx.fillStyle = co.color;
+    ctx.font = 'bold 34px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(co.level, cx+55, cardY+130);
+
+    ctx.fillStyle = '#78829a';
+    ctx.font = '34px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(co.detail, cx+35, cardY+210);
+
+    cardY += 315;
+  });
+
+  return c;
+}
+
+// ===== Screenshot 4: Weather =====
+function ss4() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#1464a0', '#1e96c8');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '🌤️ 渡航先の天気予報', '最大16日先まで • パッキングアドバイス付き');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '🌤️  シンガポールの天気', '#1e82b4');
+
+  // Summary
+  const sy = cy+130;
+  rrect(ctx, cx, sy, cw, 360, 25, '#fff');
+  ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#78829a';
+  ctx.fillText('平均最高', cx+100, sy+50);
+  ctx.fillText('平均最低', cx+560, sy+50);
+  ctx.font = 'bold 96px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#FF3B30';
+  ctx.fillText('31°', cx+100, sy+160);
+  ctx.fillStyle = '#007AFF';
+  ctx.fillText('24°', cx+560, sy+160);
+
+  ctx.font = '34px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#1e1e32';
+  ctx.fillText('☀️ 日焼け止め・帽子・サングラス必須', cx+35, sy+240);
+  ctx.fillText('🌂 折りたたみ傘があると安心', cx+35, sy+290);
+
+  // Daily
+  const days = [
+    ['04/28 月','☀️','32°','24°',''],
+    ['04/29 火','⛅','30°','23°',''],
+    ['04/30 水','🌧️','27°','22°','☔ 60%'],
+    ['05/01 木','☀️','33°','25°',''],
+    ['05/02 金','⛅','31°','24°',''],
+    ['05/03 土','☀️','32°','24°',''],
+  ];
+  let dy = sy + 400;
+  days.forEach(([date,icon,hi,lo,rain]) => {
+    rrect(ctx, cx, dy, cw, 120, 20, '#fff');
+    ctx.fillStyle = '#1e1e32';
+    ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(date, cx+35, dy+72);
+    ctx.font = '48px -apple-system';
+    ctx.fillText(icon, cx+300, dy+75);
+    ctx.font = 'bold 44px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#FF3B30';
+    ctx.fillText(hi, cx+460, dy+72);
+    ctx.fillStyle = '#007AFF';
+    ctx.fillText(lo, cx+600, dy+72);
+    if(rain) { ctx.fillStyle='#FF9500'; ctx.font='34px -apple-system, "Hiragino Sans", sans-serif'; ctx.fillText(rain, cx+760, dy+72); }
+    dy += 140;
+  });
+
+  return c;
+}
+
+// ===== Screenshot 5: Expense =====
+function ss5() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#14503c', '#1e785a');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '💰 旅費をスマートに管理', '現地通貨で入力、日本円に自動換算');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '💰  旅費トラッカー', '#1e6446');
+
+  // Total
+  const ty = cy+130;
+  rrect(ctx, cx, ty, cw, 300, 25, '#fff');
+  ctx.fillStyle = '#78829a';
+  ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('合計支出', cx+35, ty+50);
+  ctx.font = 'bold 80px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#1e1e32';
+  ctx.fillText('¥87,340', cx+35, ty+150);
+  ctx.font = '34px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#78829a';
+  ctx.fillText('1日平均 ¥17,468  |  12件', cx+35, ty+210);
+
+  ctx.fillStyle = '#78829a';
+  ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('予算残り', cx+620, ty+50);
+  ctx.font = 'bold 56px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#34C759';
+  ctx.fillText('¥62,660', cx+620, ty+120);
+
+  // Category bar
+  const by = ty+340;
+  rrect(ctx, cx, by, cw, 80, 20, '#fff');
+  ctx.fillStyle = '#1e1e32';
+  ctx.font = 'bold 38px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('カテゴリ内訳', cx+35, by+55);
+
+  const bary = by+100;
+  rrect(ctx, cx+30, bary, cw-60, 50, 25, '#e6ebf0');
+  const segs = [[0.42,'#FF7850'],[0.23,'#007AFF'],[0.19,'#FFCC00'],[0.16,'#34C759']];
+  let sx = cx+30;
+  segs.forEach(([r,col]) => { const sw=Math.floor((cw-60)*r); rrect(ctx, sx, bary, sw, 50, 25, col); sx+=sw; });
+
+  // Categories
+  const cats = [
+    ['🍽️','食事','¥36,683','42%','#FF7850'],
+    ['🚕','交通','¥20,088','23%','#007AFF'],
+    ['🛍️','買い物','¥16,595','19%','#FFCC00'],
+    ['🎡','アクティビティ','¥13,974','16%','#34C759'],
+  ];
+  let ly = bary+80;
+  cats.forEach(([emoji,name,amt,pct,color]) => {
+    rrect(ctx, cx, ly, cw, 120, 20, '#fff');
+    rrect(ctx, cx+20, ly+35, 40, 50, 10, color);
+    ctx.font = '42px -apple-system';
+    ctx.fillText(emoji, cx+80, ly+75);
+    ctx.font = 'bold 38px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillStyle = '#1e1e32';
+    ctx.fillText(name, cx+140, ly+72);
+    ctx.font = '42px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(amt, cx+520, ly+72);
+    ctx.fillStyle = '#78829a';
+    ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+    ctx.fillText(pct, cx+800, ly+72);
+    ly += 140;
+  });
+
+  return c;
+}
+
+// ===== Screenshot 6: Departure Guide =====
+function ss6() {
+  const c = createCanvas(), ctx = c.getContext('2d');
+  ctx.fillStyle = gradient(ctx, 0, H, '#1e1e50', '#3c3c8c');
+  ctx.fillRect(0, 0, W, H);
+  headline(ctx, '🛫 出発日も安心サポート', 'チェックイン締め切り・空港経路を自動案内');
+
+  const px=95, py=340, pw=1100, ph=2300;
+  phone(ctx, px, py, pw, ph);
+  const cx=px+45, cw=pw-90;
+  let cy=py+70;
+
+  header(ctx, cx, cy, cw, '🛫  出発日ガイド', '#323278');
+
+  // Flight
+  const fy = cy+130;
+  rrect(ctx, cx, fy, cw, 200, 25, '#fff');
+  ctx.font = 'bold 48px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#1e1e32';
+  ctx.fillText('NH841  NRT → SIN', cx+35, fy+60);
+  ctx.font = '38px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillStyle = '#78829a';
+  ctx.fillText('2026/04/28 (月)', cx+35, fy+120);
+  ctx.fillStyle = '#007AFF';
+  ctx.font = 'bold 44px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('10:30 出発', cx+35, fy+175);
+
+  // Check-in
+  const ci = fy+240;
+  rrect(ctx, cx, ci, cw, 340, 25, '#fff');
+  ctx.fillStyle = '#FF9500';
+  ctx.font = 'bold 46px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('⏰ チェックイン締め切り', cx+35, ci+55);
+  ctx.fillStyle = '#1e1e32';
+  ctx.font = '38px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('ANA国際線 — 出発60分前', cx+35, ci+120);
+  ctx.fillStyle = '#78829a';
+  ctx.fillText('締め切り時刻', cx+35, ci+195);
+  ctx.fillStyle = '#FF3B30';
+  ctx.font = 'bold 80px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('09:30', cx+400, ci+200);
+  ctx.fillStyle = '#78829a';
+  ctx.font = '32px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('※ 出発2時間前の到着を推奨', cx+35, ci+280);
+
+  // Route
+  const ry = ci+380;
+  rrect(ctx, cx, ry, cw, 290, 25, '#fff');
+  ctx.fillStyle = '#007AFF';
+  ctx.font = 'bold 46px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('🗺️ 空港への経路', cx+35, ry+55);
+  ctx.fillStyle = '#1e1e32';
+  ctx.font = '38px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('自宅 → 成田空港 ターミナル1', cx+35, ry+120);
+  ctx.fillStyle = '#78829a';
+  ctx.font = '36px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('約1時間30分 • 乗り換え1回', cx+35, ry+175);
+
+  rrect(ctx, cx+35, ry+210, 500, 55, 28, '#34C759');
+  ctx.fillStyle = '#fff';
+  ctx.font = 'bold 34px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('Google マップで経路を開く', cx+65, ry+247);
+
+  // Time alert
+  const dt = ry+330;
+  rrect(ctx, cx, dt, cw, 120, 25, '#FFF5E6');
+  ctx.textAlign = 'center';
+  ctx.fillStyle = '#FF9500';
+  ctx.font = 'bold 44px -apple-system, "Hiragino Sans", sans-serif';
+  ctx.fillText('🕗 遅くとも 7:00 には出発しましょう', cx+cw/2, dt+75);
+  ctx.textAlign = 'left';
+
+  return c;
+}
+
+// Generate all
+const generators = [
+  {fn: ss1, name: '01_trip_list', title: '旅行一覧'},
+  {fn: ss2, name: '02_ai_scan', title: 'AIスキャン'},
+  {fn: ss3, name: '03_safety', title: '渡航安全情報'},
+  {fn: ss4, name: '04_weather', title: '天気予報'},
+  {fn: ss5, name: '05_expense', title: '旅費トラッカー'},
+  {fn: ss6, name: '06_departure', title: '出発日ガイド'},
+];
+
+const grid = document.getElementById('grid');
+
+generators.forEach(g => {
+  const canvas = g.fn();
+  screenshots.push({canvas, name: g.name});
+
+  const item = document.createElement('div');
+  item.className = 'item';
+
+  const title = document.createElement('div');
+  title.style.marginBottom = '8px';
+  title.style.fontWeight = 'bold';
+  title.textContent = g.title;
+  item.appendChild(title);
+
+  canvas.style.width = '200px';
+  canvas.style.height = 'auto';
+  item.appendChild(canvas);
+
+  const btn = document.createElement('button');
+  btn.textContent = 'ダウンロード';
+  btn.onclick = () => download(canvas, g.name);
+  item.appendChild(btn);
+
+  grid.appendChild(item);
+});
+
+function download(canvas, name) {
+  const a = document.createElement('a');
+  a.download = name + '.png';
+  a.href = canvas.toDataURL('image/png');
+  a.click();
+}
+
+function downloadAll() {
+  screenshots.forEach(s => download(s.canvas, s.name));
+}
+</script>
+</body>
+</html>

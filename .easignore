@@ -1,0 +1,9 @@
+# EAS Build ignore - reduce upload size
+node_modules/
+.expo/
+.git/
+docs/
+*.md
+__tests__/
+coverage/
+.vscode/
