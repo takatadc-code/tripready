@@ -1,0 +1,11 @@
+
+# Dependencies
+node_modules/
+
+# Screenshots
+screenshot/
+
+# iOS build artifacts
+ios/build/
+ios/Pods/
+ios/DerivedData/
