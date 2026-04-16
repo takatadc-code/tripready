@@ -86,5 +86,5 @@ https://takatadc-code.github.io/tripready/privacy-policy.html
 4+（不適切なコンテンツなし）
 
 ## App Review情報
-連絡先メール：takatadc@gmail.com
+連絡先メール：run-dom@takata-dc.jp
 メモ：このアプリはサインイン不要で利用できます。起動後すぐに旅行プランの作成が可能です。AI機能のテストには、カメラロールから航空券や保険証書の画像を選択してスキャンをお試しください。
