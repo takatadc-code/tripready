@@ -15,11 +15,11 @@
     "ios": {
       "supportsTablet": true,
       "bundleIdentifier": "com.randomcorp.tripready",
-      "buildNumber": "1",
+      "buildNumber": "23",
       "infoPlist": {
-        "NSCameraUsageDescription": "旅行書類やパスポートの撮影に使用します",
-        "NSPhotoLibraryUsageDescription": "旅行書類の画像を選択するために使用します",
-        "NSFaceIDUsageDescription": "お忍び旅行の認証に使用します",
+        "NSCameraUsageDescription": "パスポートや航空券などの旅行書類を撮影して自動読み取りするために、カメラへのアクセスが必要です。",
+        "NSPhotoLibraryUsageDescription": "パスポートや保険証書などの旅行書類の画像を選択して読み取るために、写真ライブラリへのアクセスが必要です。",
+        "NSFaceIDUsageDescription": "プライベートな旅行情報を保護するために、Face IDによる認証を使用します。",
         "ITSAppUsesNonExemptEncryption": false
       },
       "config": {
@@ -29,11 +29,15 @@
         "NSPrivacyAccessedAPITypes": [
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryDiskSpace",
-            "NSPrivacyAccessedAPITypeReasons": ["E174.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "E174.1"
+            ]
           },
           {
             "NSPrivacyAccessedAPIType": "NSPrivacyAccessedAPICategoryUserDefaults",
-            "NSPrivacyAccessedAPITypeReasons": ["CA92.1"]
+            "NSPrivacyAccessedAPITypeReasons": [
+              "CA92.1"
+            ]
           }
         ]
       }
